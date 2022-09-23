@@ -33,18 +33,6 @@ def after_request(response):
     print('Despues de la peticion...')
     return response
 
-@app.route('/')
-def index1():
-    cursos = ['Python', 'Java', 'Ruby', 'C', 'JavaScript']
-    data={
-        'titulo':'Index',
-        'bienvenida':'Saludos',
-        'cursos': cursos,
-        'num_cursos': len(cursos)
-    }
-    #return render_template('index.html', data=data)
-    return redirect(url_for('sesion'))
-
 #Este metodo permite los metodos de POST y GET
 @app.route('/sesion', methods=['GET', 'POST'])
 def sesion():
@@ -60,7 +48,7 @@ def sesion():
             if logged_user.password:
                 #Con una libreria el programa logea al usuario en el sistema
                 login_user(logged_user)
-                return redirect(url_for('home'))
+                return redirect(url_for('pagina'))
             else:
                 flash("Invalid password...")
                 return render_template('auth/sesion.html')
@@ -79,7 +67,7 @@ def register():
             ModelUser.registrar(db, user)
             logged_user= ModelUser.login(db, user)
             login_user(logged_user)
-            return redirect(url_for('home'))
+            return redirect(url_for('pagina'))
         else:
             flash("Usuario o Correo ya registrado...")
             return render_template('auth/registro.html')
@@ -139,6 +127,26 @@ def pagina_no_encontrada(error):
 
 def status_401(error):
     return redirect(url_for('sesion'))
+
+@app.route('/')
+@login_required
+def pagina():
+    return render_template('pagina/index.html')
+
+@app.route('/post')
+@login_required
+def post():
+    return render_template('pagina/post.html')
+
+@app.route('/contact')
+@login_required
+def contact():
+    return render_template('pagina/contact.html')
+
+@app.route('/about')
+@login_required
+def about():
+    return render_template('pagina/about.html')
 
 if __name__ == '__main__':
     app.add_url_rule('/query_string', view_func=query_string)
