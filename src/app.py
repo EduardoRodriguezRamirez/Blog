@@ -148,6 +148,10 @@ def contact():
 def about():
     return render_template('pagina/about.html')
 
+@app.route('/postRegistro')
+def postRegistro():
+    return render_template('pagina/postRegistro.html')
+
 if __name__ == '__main__':
     app.add_url_rule('/query_string', view_func=query_string)
     csrf.init_app(app)
