@@ -130,6 +130,7 @@ def status_401(error):
 
 @app.route('/')
 @login_required
+
 def pagina():
     return render_template('pagina/index.html')
 

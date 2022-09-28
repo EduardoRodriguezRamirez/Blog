@@ -1,25 +1,35 @@
 {% extends './BaseRegistro.html' %}
 
 {% block header %}
-<header class="masthead" style="">
-    <div class="container position-relative px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="page-heading">
-                    <h1>Man must explore, and this is exploration at its greatest</h1>
-                    <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
-                    <span class="meta">
-                        Posted by
-                        <a href="#!">Start Bootstrap</a>
-                        on August 24, 2022
-                    </span>
-                </div>
-            </div>
-        </div>
+<header class="hder" style="">
+    <div>
+        <h1>Creacion de post </h1>
     </div>
 </header>
 {% endblock %}
 
 {% block body %}
+<div class="container-lg margen" id="contenedor">
+    <div class="row">
+        <div class="col">Funciones
+            <div class="row text-center">
+                    <label for="">Titulo</label>     
+                    <textarea name="" id="LTitulo" cols="5" rows="1"></textarea>
+                    <input type="button" value="Agregar" id="ATitulo">
+            </div>
+            <div class="row text-center">
+                <label for="">Texto</label>
+                <textarea name="" id="LTexto" cols="15" rows="5"></textarea>
+                <input type="button" value="Agregar" ATexto>
+            </div>
+            <div class="row text-center">
+                <label for="">Imagen</label>
+                <input type="image" src="" alt="fdsfds">
+                <input type="button" value="Agregar">
+            </div>
+        </div>
+        <div class="col">Diseño</div>
+    </div>
+</div>
 {% endblock %}
 
