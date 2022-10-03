@@ -35,11 +35,12 @@ userFormTitle.addEventListener('submit', async e =>{
     userItem.innerHTML = `<h1>${titulo}</h1>`
     userDiseño.append(userItem)
 
-    console.log(userDiseño)
-
-    const data = await mandarJson()
+    const response = await mandarJson()
+    const data = await response.json()
 
     console.log(data)
+    console.log(data[0])
+    insertarId(data[0])
 });
 
 const userFormText = document.querySelector('#FTexto')
@@ -57,31 +58,27 @@ userFormText.addEventListener('submit', async e =>{
 
     console.log(userDiseño.innerHTML)
 
-    const data = await mandarJson()
+    const response = await mandarJson()
+    const data = await response.json()
 
     console.log(data)
+    console.log(data[0])
+    insertarId(data[0])
 });
 
 function mandarJson() {
     const tituloP = document.querySelector('#titulo').textContent
-    var titulo = document.querySelector('#titlemain').value
-
-    if (tituloP != titulo){ 
-        document.querySelector('#titulo').textContent = titulo
-    }else{
-        titulo = null
-    }
     
     const nombre = document.querySelector('#NombreUsuario').textContent
     const id = document.querySelector('#id').textContent
 
-    return fetch('/postRegistro/posts', {
+    var response = fetch('/postRegistro/posts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            titulo,
+            titulo: tituloP,
             id,
             resumen: '',
             texto: userDiseño.innerHTML,
@@ -90,4 +87,10 @@ function mandarJson() {
             hora: ''
         })
     })
+    return response
+}
+
+function insertarId(id){
+    document.querySelector('#id').textContent = id
+    console.log(id)
 }
