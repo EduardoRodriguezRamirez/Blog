@@ -62,5 +62,7 @@ class ModelUser():
                     ('{0}', '{1}', '{2}')""".format(user.username, User.password_creator(user.password), user.email)
             cursor.execute(sql)
             db.connection.commit()
+
+            
         except Exception as ex:
             raise Exception(ex)

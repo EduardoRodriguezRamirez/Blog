@@ -1,5 +1,4 @@
 {% extends './BaseRegistro.html' %}
-
 {% block header %}
 <header class="hder" style="">
     <div>
@@ -10,26 +9,36 @@
 
 {% block body %}
 <div class="container-lg margen" id="contenedor">
+    <div class="text-center">
+        <div hidden id="id">{{ data.id }}</div>
+        <div class="mb-3">
+            <label for="titlemain" class="form-label">Titulo: <div id="titulo">{{ data.titulo}}</div> </label>
+            <input type="text" class="form-control" id="titlemain" placeholder="" value={{data.titulo}}>
+        </div>
+        <div id="NombreUsuario"><h3 name="user">{{ current_user.username }}</h3></div>
+    </div>
     <div class="row">
-        <div class="col">Funciones
-            <div class="row text-center">
-                    <label for="">Titulo</label>     
-                    <textarea name="" id="LTitulo" cols="5" rows="1"></textarea>
-                    <input type="button" value="Agregar" id="ATitulo">
+        <div class="col">
+            <div class="row justify-content-center">
+                <form id="FTitulo">
+                    <label for="titulo">Titulo</label>     
+                    <textarea name="titulo" cols="5" rows="1"></textarea>
+                    <button>Agregar</button>
+                </form>
             </div>
-            <div class="row text-center">
-                <label for="">Texto</label>
-                <textarea name="" id="LTexto" cols="15" rows="5"></textarea>
-                <input type="button" value="Agregar" ATexto>
-            </div>
-            <div class="row text-center">
-                <label for="">Imagen</label>
-                <input type="image" src="" alt="fdsfds">
-                <input type="button" value="Agregar">
+            <div class="row justify-content-center">
+                <form id="FTexto">
+                    <label for="texto">Texto</label>
+                    <textarea name="texto" cols="15" rows="5"></textarea>
+                    <button>Agregar</button>
+                </form>
             </div>
         </div>
-        <div class="col">Diseño</div>
+        <div class="col">
+            <ul id="Diseño"></ul>
+        </div>
     </div>
 </div>
+<script src="/static/js/main.js"></script>
 {% endblock %}
 
