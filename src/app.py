@@ -8,7 +8,6 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, url
 from flask_mysqldb import MySQL
 from config import config
 from flask_login import LoginManager, login_user, logout_user, login_required
-from flask_bootstrap import Bootstrap
 
 #Models
 from Models.ModelUser import ModelUser
@@ -19,7 +18,6 @@ from Models.entities.User import User
 app = Flask(__name__)
 db = MySQL(app)
 login_manager_app= LoginManager(app)
-Bootstrap(app)
 
 @login_manager_app.user_loader
 def load_user(id):
@@ -128,8 +126,9 @@ def create_post():
     now=datetime.now()
     new_post['fecha'] = "{0}-{1}-{2}".format(now.day, now.month, now.year)
     new_post['hora'] = '{0}-{1}-{2}'.format(now.hour, now.minute, now.second)
-    insertarPost(new_post)
-    return jsonify('hoal')
+    row = insertarPost(new_post)
+    print (jsonify(row))
+    return jsonify(row)
 
 @app.get('/postRegistro/posts/<id>')
 def buscarPosts(id):
@@ -138,9 +137,6 @@ def buscarPosts(id):
         sql= "select * from posts where id = {}".format(id)
         cursor.execute(sql)
         row = cursor.fetchone()
-        print(row)
-        midi = jsonify(row)
-        print(midi)
         return jsonify(row)
     else:
         return jsonify("new")
@@ -157,6 +153,12 @@ def insertarPost(post):
             sql = """update posts set resumen = '{0}', texto = '{1}', nombre = '{2}', fecha = '{3}', hora = '{4}' where id = {5}""".format(post['resumen'], post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
     cursor.execute(sql)
     db.connection.commit()
+    sql = "select * from posts where titulo = '{}'".format(post['titulo'])
+    cursor.execute(sql)
+    row = cursor.fetchone()
+
+    return row
+
 
 def BusquedaTitulo(titulo):
     cursor = db.connection.cursor()
