@@ -2,10 +2,28 @@ const userFormTitle = document.querySelector('#FTitulo')
 
 const userDiseño = document.querySelector('#Diseño')
 
+const corredor = document.querySelector('#corredores')
+
+corredor.addEventListener('click', e =>{
+    var med = prompt("Nombre del post", "Videojuegos")
+    var mid2 = "/postRegistro/crear/"+med
+    window.location.href = mid2
+});
+
 window.addEventListener("DOMContentLoaded", async () =>{
     const response = await fetch("/postRegistro/posts/"+document.querySelector('#id').textContent);
     const data = await response.json()
+    //Impresion de la data
+    console.log(data)
+    if (data == "new")
+        console.log("entro")
+    else
+        IniPagina(data)
 });
+
+function IniPagina(data){
+    document.querySelector('#Diseño').innerHTML= data[3]
+}
 
 userFormTitle.addEventListener('submit', async e =>{
     e.preventDefault()

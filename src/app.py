@@ -17,7 +17,6 @@ from Models.ModelUser import ModelUser
 from Models.entities.User import User
 
 app = Flask(__name__)
-
 db = MySQL(app)
 login_manager_app= LoginManager(app)
 Bootstrap(app)
@@ -129,7 +128,6 @@ def create_post():
     now=datetime.now()
     new_post['fecha'] = "{0}-{1}-{2}".format(now.day, now.month, now.year)
     new_post['hora'] = '{0}-{1}-{2}'.format(now.hour, now.minute, now.second)
-    print(new_post)
     insertarPost(new_post)
     return jsonify('hoal')
 
@@ -140,6 +138,9 @@ def buscarPosts(id):
         sql= "select * from posts where id = {}".format(id)
         cursor.execute(sql)
         row = cursor.fetchone()
+        print(row)
+        midi = jsonify(row)
+        print(midi)
         return jsonify(row)
     else:
         return jsonify("new")
@@ -154,18 +155,15 @@ def insertarPost(post):
             sql = """update posts set titulo = '{0}', resumen = '{1}', texto = '{2}', nombre = '{3}', fecha = '{4}', hora = '{5}' where id = {6}""".format(post['titulo'], post['resumen'], post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
         else:
             sql = """update posts set resumen = '{0}', texto = '{1}', nombre = '{2}', fecha = '{3}', hora = '{4}' where id = {5}""".format(post['resumen'], post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
-    print(sql)
     cursor.execute(sql)
     db.connection.commit()
 
 def BusquedaTitulo(titulo):
     cursor = db.connection.cursor()
     sql = 'select * from posts where titulo = "{}"'.format(titulo)
-    print(sql)
     cursor.execute(sql)
     row = cursor.fetchone()
     if row != None:
-        print(row[0])
         return row[0]
     else:
         return "new"
