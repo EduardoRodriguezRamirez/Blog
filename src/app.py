@@ -144,13 +144,13 @@ def buscarPosts(id):
 def insertarPost(post):
     cursor = db.connection.cursor()
     if post['id'] == 'new':
-        sql = """insert into posts (titulo, resumen,texto,nombre,fecha,hora) 
-        values ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}')""".format(post['titulo'], post['resumen'], post['texto'], post['nombre'], post['fecha'], post['hora'])
+        sql = """insert into posts (titulo, texto,nombre,fecha,hora) 
+        values ('{0}', '{1}', '{2}', '{3}', '{4}')""".format(post['titulo'], post['texto'], post['nombre'], post['fecha'], post['hora'])
     else:
         if post['titulo'] != None:
-            sql = """update posts set titulo = '{0}', resumen = '{1}', texto = '{2}', nombre = '{3}', fecha = '{4}', hora = '{5}' where id = {6}""".format(post['titulo'], post['resumen'], post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
+            sql = """update posts set titulo = '{0}', texto = '{1}', nombre = '{2}', fecha = '{3}', hora = '{4}' where id = {5}""".format(post['titulo'], post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
         else:
-            sql = """update posts set resumen = '{0}', texto = '{1}', nombre = '{2}', fecha = '{3}', hora = '{4}' where id = {5}""".format(post['resumen'], post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
+            sql = """update posts set texto = '{0}', nombre = '{1}', fecha = '{2}', hora = '{3}' where id = {4}""".format( post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
     cursor.execute(sql)
     db.connection.commit()
     sql = "select * from posts where titulo = '{}'".format(post['titulo'])

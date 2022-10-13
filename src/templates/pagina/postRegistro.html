@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-lg margen" id="contenedor">
+<div class="container-lg  margen">
     <div class="text-center">
         <div hidden id="id">{{ data.id }}</div>
         <div class="mb-3">
@@ -18,12 +18,18 @@
         <div id="NombreUsuario"><h3 name="user">{{ current_user.username }}</h3></div>
     </div>
     <div class="row">
-        <div class="col">
-            <div class="row justify-content-center">
+        <div class="col contenedor">
+            <div class="row align-items-center">
                 <form id="FTitulo">
-                    <label for="titulo">Titulo</label>     
-                    <textarea name="titulo" cols="5" rows="1"></textarea>
-                    <button>Agregar</button>
+                    <div class="col">
+                        <label for="titulo">Titulo</label> 
+                    </div>
+                    <div class="col">
+                        <textarea name="titulo" cols="5" rows="1"></textarea>
+                    </div>
+                    <div class="col">
+                        <button>Agregar</button>
+                    </div>
                 </form>
             </div>
             <div class="row justify-content-center">
@@ -34,8 +40,11 @@
                 </form>
             </div>
         </div>
-        <div class="col">
+        <div class="col contenedor">
             <ul id="Diseño"></ul>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-secondary">Publicar</button>
         </div>
     </div>
 </div>

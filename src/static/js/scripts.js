@@ -28,3 +28,19 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 })
 
+const corredor = document.querySelector('#corredores')
+
+corredor.addEventListener('click', e =>{
+    var med = prompt("Nombre del post", "Videojuegos")
+    if (med != null){
+        if (med == ""){
+            alert("Agregue un nombre para el post")
+        }else{
+            var mid2 = "/postRegistro/crear/"+med
+            console.log(mid2)
+            window.location.href = mid2
+        }
+    }
+});
+
+

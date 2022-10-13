@@ -2,14 +2,6 @@ const userFormTitle = document.querySelector('#FTitulo')
 
 const userDiseño = document.querySelector('#Diseño')
 
-const corredor = document.querySelector('#corredores')
-
-corredor.addEventListener('click', e =>{
-    var med = prompt("Nombre del post", "Videojuegos")
-    var mid2 = "/postRegistro/crear/"+med
-    window.location.href = mid2
-});
-
 window.addEventListener("DOMContentLoaded", async () =>{
     const response = await fetch("/postRegistro/posts/"+document.querySelector('#id').textContent);
     const data = await response.json()
@@ -80,7 +72,6 @@ function mandarJson() {
         body: JSON.stringify({
             titulo: tituloP,
             id,
-            resumen: '',
             texto: userDiseño.innerHTML,
             nombre,
             fecha: '',
