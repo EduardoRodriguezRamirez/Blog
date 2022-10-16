@@ -130,6 +130,14 @@ def create_post():
     print (jsonify(row))
     return jsonify(row)
 
+@app.post('/postRegistro/resumen')
+def insert_resumen():
+    peticion = request.get_json()
+    resumen = peticion['resumen']
+    id = peticion['id']
+
+    return jsonify(resumen)
+
 @app.get('/postRegistro/posts/<id>')
 def buscarPosts(id):
     if(id != "new"):
@@ -140,6 +148,10 @@ def buscarPosts(id):
         return jsonify(row)
     else:
         return jsonify("new")
+
+def insertarResumen(id, resumen):
+    cursor = db.connection.cursor()
+    
 
 def insertarPost(post):
     cursor = db.connection.cursor()
