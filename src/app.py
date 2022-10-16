@@ -135,7 +135,7 @@ def insert_resumen():
     peticion = request.get_json()
     resumen = peticion['resumen']
     id = peticion['id']
-
+    insertarResumen(id, resumen)
     return jsonify(resumen)
 
 @app.get('/postRegistro/posts/<id>')
@@ -151,6 +151,9 @@ def buscarPosts(id):
 
 def insertarResumen(id, resumen):
     cursor = db.connection.cursor()
+    sql = "UPDATE posts set resumen = '{0}' where id = '{1}'".format(resumen, id)
+    cursor.execute(sql)
+    db.connection.commit()
     
 
 def insertarPost(post):
