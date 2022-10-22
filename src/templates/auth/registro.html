@@ -1,42 +1,57 @@
-{% extends './layout.html' %}
+{% extends './UserExp.html' %}
 
 {% block title %}
-hola
+
+  hola
+
 {% endblock %}
 
 {% block customCSS %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/LoginStyle.css')}}">
+
 {% endblock %}
 
 {% block body %}
+
 <!--action devuelve los datos hacia la misma ruta /register para poder validar los datos correctamente-->
 <form class="form-signin" action="/register" method="POST">
+
     <!--src Direccion de la imagen usada-->
     <img class="mb-4" src="{{ url_for('static', filename='img/To.png')}}" alt="" width="290" height="200">
 
     <!--Este bloque es para los mensajes cuando se da un error a la hora de validar la informacion-->
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <br />
-    {% for message in messages %}
-    <div class="alert alert-primary alert-dimissible" role="alert">
-      <strong>{{ message }}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
-    {% endif %}
+      {% if messages %}
+
+          <br />
+
+        {% for message in messages %}
+
+          <div class="alert alert-primary alert-dimissible" role="alert">
+            <strong>{{ message }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+        {% endfor %}
+      {% endif %}
     {% endwith %}
+
     <h1 class="h3 mb-3 fw-normal">Registro</h1>
+
     <!--Token que no se para que sirve pero ahi esta-->
     
+
     <div class="form-floating">
       <input type="username" class="form-control" id="floatingInput" name="username" placeholder="Nombre">
       <label for="floatingInput">Nombre de Usuario</label>
     </div>
+
     <div class="form-floating">
         <input type="email" class="form-control" id="floatingInput" name="email" placeholder="Email@ejemplo.com">
         <label for="floatingInput">Correo Electronico</label>
     </div>
+
     <div class="form-floating">
       <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Contraseña">
       <label for="floatingPassword">Contraseña</label>
@@ -48,8 +63,11 @@ hola
       </label>
       <div><p>Ya estoy registrado <a href="{{ url_for('sesion') }}">Iniciar sesion</a></p></div>
     </div>
+
     <button class="w-100 btn btn-lg btn-primary" type="submit">Registrarme</button>
+
     <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+    
   </form>
 
 {% endblock %}

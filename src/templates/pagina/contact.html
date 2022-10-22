@@ -1,4 +1,10 @@
-{% extends './SitioBase.html' %}
+{% extends './HomePage.html' %}
+{% block plantilla %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    {% endblock %}
+    {% block style %}
+    <link href="{{ url_for('static', filename='css/HomeStyle.css')}}" rel="stylesheet" />
+    {% endblock %}
 
         {% block header %}
         <header class="masthead" style="background-image: url('static/img/contact-bg.jpg')">

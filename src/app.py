@@ -1,6 +1,8 @@
+from cmath import e
 from datetime import datetime
 import json
 import re
+from sqlite3 import connect
 from ssl import HAS_TLSv1_1
 from turtle import pos
 from urllib import response
@@ -47,7 +49,7 @@ def sesion():
             if logged_user.password:
                 #Con una libreria el programa logea al usuario en el sistema
                 login_user(logged_user)
-                return redirect(url_for('pagina'))
+                return redirect(url_for('home'))
             else:
                 flash("Invalid password...")
                 return render_template('auth/sesion.html')
@@ -65,7 +67,7 @@ def register():
             ModelUser.registrar(db, user)
             logged_user= ModelUser.login(db, user)
             login_user(logged_user)
-            return redirect(url_for('pagina'))
+            return redirect(url_for('home'))
         else:
             flash("Usuario o Correo ya registrado...")
             return render_template('auth/registro.html')
@@ -84,15 +86,24 @@ def protected():
     return "<h1>Vista protegida: Solo usuarios</h1>"
 
 def pagina_no_encontrada(error):
-    return render_template('404.html'), 404
+    return render_template('error/404.html'), 404
 
 def status_401(error):
     return redirect(url_for('sesion'))
 
 @app.route('/')
 @login_required
-def pagina():
-    return render_template('pagina/index.html')
+def home():
+    data = obtener_posts()
+    return render_template('pagina/home.html', data=data)
+
+def obtener_posts():
+    cursor = db.connection.cursor()
+    sql = "select titulo, resumen, nombre, fecha from posts where resumen <> ''"
+    cursor.execute(sql)
+    row = cursor.fetchall()
+    print(row)
+    return row
 
 @app.route('/post')
 @login_required
@@ -122,44 +133,16 @@ def postRegistro(titulo):
 @app.post('/postRegistro/posts')
 def create_post():
     new_post = request.get_json()
-    texto = new_post['texto']
     now=datetime.now()
     new_post['fecha'] = "{0}-{1}-{2}".format(now.day, now.month, now.year)
     new_post['hora'] = '{0}-{1}-{2}'.format(now.hour, now.minute, now.second)
     row = insertarPost(new_post)
-    print (jsonify(row))
     return jsonify(row)
-
-@app.post('/postRegistro/resumen')
-def insert_resumen():
-    peticion = request.get_json()
-    resumen = peticion['resumen']
-    id = peticion['id']
-    insertarResumen(id, resumen)
-    return jsonify(resumen)
-
-@app.get('/postRegistro/posts/<id>')
-def buscarPosts(id):
-    if(id != "new"):
-        cursor = db.connection.cursor()
-        sql= "select * from posts where id = {}".format(id)
-        cursor.execute(sql)
-        row = cursor.fetchone()
-        return jsonify(row)
-    else:
-        return jsonify("new")
-
-def insertarResumen(id, resumen):
-    cursor = db.connection.cursor()
-    sql = "UPDATE posts set resumen = '{0}' where id = '{1}'".format(resumen, id)
-    cursor.execute(sql)
-    db.connection.commit()
-    
 
 def insertarPost(post):
     cursor = db.connection.cursor()
     if post['id'] == 'new':
-        sql = """insert into posts (titulo, texto,nombre,fecha,hora) 
+        sql = """insert into posts (titulo, texto, nombre, fecha, hora) 
         values ('{0}', '{1}', '{2}', '{3}', '{4}')""".format(post['titulo'], post['texto'], post['nombre'], post['fecha'], post['hora'])
     else:
         if post['titulo'] != None:
@@ -171,9 +154,52 @@ def insertarPost(post):
     sql = "select * from posts where titulo = '{}'".format(post['titulo'])
     cursor.execute(sql)
     row = cursor.fetchone()
-
     return row
 
+@app.post('/postRegistro/resumen')
+def insert_resumen():
+    peticion = request.get_json()
+    resumen = peticion['resumen']
+    id = peticion['id']
+    insertarResumen(id, resumen)
+    return jsonify(resumen)
+
+def insertarResumen(id, resumen):
+    cursor = db.connection.cursor()
+    sql = "UPDATE posts set resumen = '{0}' where id = '{1}'".format(resumen, id)
+    cursor.execute(sql)
+    db.connection.commit()
+
+@app.get('/postRegistro/posts/<int:id>')
+def buscarPosts(id):
+    if(id != "new"):
+        cursor = db.connection.cursor()
+        sql= "select * from posts where id = {}".format(id)
+        cursor.execute(sql)
+        row = cursor.fetchone()
+        return jsonify(row)
+    else:
+        return jsonify("new")
+
+def Obtener_post(valor):
+    cursor = db.connection.cursor()
+    try:
+        id = int(valor)
+        sql = "select * from posts where id = {}".format(id)
+    except TypeError:
+        sql = "select * from posts where titulo = {}".format(valor)
+    cursor.execute(sql)
+    row = cursor.fetchone()
+    return row
+
+@app.get('/postRegistro/posts/<string:titulo>')
+def Mostrar_post(titulo):
+    cursor = db.connection.cursor()
+    sql = "select * from posts where titulo = '{}'".format(titulo)
+    print(sql)
+    cursor.execute(sql)
+    row = cursor.fetchone()
+    return render_template('/pagina/post.html', data=row)
 
 def BusquedaTitulo(titulo):
     cursor = db.connection.cursor()

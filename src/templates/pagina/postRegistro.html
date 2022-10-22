@@ -1,4 +1,8 @@
-{% extends './BaseRegistro.html' %}
+{% extends './HomePage.html' %}
+    {% block style %}
+    <link href="{{ url_for('static', filename='css/HomeStyle.css')}}" rel="stylesheet" />
+    {% endblock %}
+
 {% block header %}
 <header class="hder" style="">
     <div>
@@ -53,20 +57,26 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
+
               <h1 class="modal-title fs-5" id="staticBackdropLabel">Resumen</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close resumen-cnl" data-bs-dismiss="modal" aria-label="Close"></button>
+
             </div>
             <div class="modal-body">
+
                 <p class="text-center" id="ResumenT">HHHH</p>
               <textarea name="TextoResumen" id="Resumen" class="form-control" cols="30" rows="5"></textarea>
+
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" id="Publicar">Publicar</button>
+
+              <button type="button" class="btn btn-secondary resumen-cnl" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="Publicar" data-bs-dismiss="modal">Publicar</button>
+
             </div>
           </div>
         </div>
       </div>
-<script src="/static/js/main.js"></script>
+<script src="/static/js/PostRegisterScripts.js"></script>
 {% endblock %}
 

@@ -26,6 +26,13 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         scrollPos = currentTop;
     });
+
+    var url = document.querySelectorAll('.url');
+    var titulo = document.querySelectorAll('.title_useful');
+    var i;
+    for (i = 0; i < url.length; i++) {
+        url[i].setAttribute('href', "/postRegistro/posts/"+titulo[i].textContent)
+    }
 })
 
 const corredor = document.querySelector('#corredores')
@@ -42,5 +49,7 @@ corredor.addEventListener('click', e =>{
         }
     }
 });
+
+
 
 
