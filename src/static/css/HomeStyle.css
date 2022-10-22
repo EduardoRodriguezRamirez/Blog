@@ -11296,3 +11296,37 @@ header.masthead .site-heading .h1 {
 li{
   list-style:none;
 }
+.CommentBox{
+  background-color: rgb(0, 255, 0);
+}
+.AddComment{
+  background-color: red;
+  transform: scale(.80);
+}
+.Comment{
+  background-color: lightblue;
+}
+div{
+  border-style: solid;
+}
+.PicturePersonal{
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;  
+}
+.PicturePersonal p{
+  background-color: white;
+  width: min-content; 
+}
+.PossibleComment{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.ButtonComment{
+  padding-top: 10px;
+  padding-right: 10px;
+}
+#BotonComentario{
+  border-radius: 10%;
+  width: min-content;
+}
