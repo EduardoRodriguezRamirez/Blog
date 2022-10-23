@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
     var titulo = document.querySelectorAll('.title_useful');
     var i;
     for (i = 0; i < url.length; i++) {
-        url[i].setAttribute('href', "/postRegistro/posts/"+titulo[i].textContent)
+        url[i].setAttribute('href', "/posts/"+titulo[i].textContent)
     }
 })
 

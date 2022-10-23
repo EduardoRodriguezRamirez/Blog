@@ -1,6 +1,7 @@
 from cmath import e
 from datetime import datetime
 import json
+from pickle import DICT
 import re
 from sqlite3 import connect
 from ssl import HAS_TLSv1_1
@@ -9,7 +10,7 @@ from urllib import response
 from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
 from flask_mysqldb import MySQL
 from config import config
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 #Models
 from Models.ModelUser import ModelUser
@@ -67,6 +68,7 @@ def register():
             ModelUser.registrar(db, user)
             logged_user= ModelUser.login(db, user)
             login_user(logged_user)
+            
             return redirect(url_for('home'))
         else:
             flash("Usuario o Correo ya registrado...")
@@ -99,7 +101,7 @@ def home():
 
 def obtener_posts():
     cursor = db.connection.cursor()
-    sql = "select titulo, resumen, nombre, fecha from posts where resumen <> ''"
+    sql = "select titulo, resumen, username, fecha from posts, user where resumen <> '' and id_author=id_user ORDER BY id_post DESC;"
     cursor.execute(sql)
     row = cursor.fetchall()
     print(row)
@@ -142,13 +144,13 @@ def create_post():
 def insertarPost(post):
     cursor = db.connection.cursor()
     if post['id'] == 'new':
-        sql = """insert into posts (titulo, texto, nombre, fecha, hora) 
-        values ('{0}', '{1}', '{2}', '{3}', '{4}')""".format(post['titulo'], post['texto'], post['nombre'], post['fecha'], post['hora'])
+        sql = """insert into posts (titulo, texto, id_author, fecha, hora) 
+        values ('{0}', '{1}', '{2}', '{3}', '{4}')""".format(post['titulo'], post['texto'], current_user.id, post['fecha'], post['hora'])
     else:
         if post['titulo'] != None:
-            sql = """update posts set titulo = '{0}', texto = '{1}', nombre = '{2}', fecha = '{3}', hora = '{4}' where id = {5}""".format(post['titulo'], post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
+            sql = """update posts set titulo = '{0}', texto = '{1}', id_author = '{2}', fecha = '{3}', hora = '{4}' where id_post = {5}""".format(post['titulo'], post['texto'], current_user.id, post['fecha'], post['hora'], post['id'])
         else:
-            sql = """update posts set texto = '{0}', nombre = '{1}', fecha = '{2}', hora = '{3}' where id = {4}""".format( post['texto'], post['nombre'], post['fecha'], post['hora'], post['id'])
+            sql = """update posts set texto = '{0}', id_author = '{1}', fecha = '{2}', hora = '{3}' where id_post = {4}""".format( post['texto'], current_user.id, post['fecha'], post['hora'], post['id'])
     cursor.execute(sql)
     db.connection.commit()
     sql = "select * from posts where titulo = '{}'".format(post['titulo'])
@@ -166,7 +168,7 @@ def insert_resumen():
 
 def insertarResumen(id, resumen):
     cursor = db.connection.cursor()
-    sql = "UPDATE posts set resumen = '{0}' where id = '{1}'".format(resumen, id)
+    sql = "UPDATE posts set resumen = '{0}' where id_post = '{1}'".format(resumen, id)
     cursor.execute(sql)
     db.connection.commit()
 
@@ -174,14 +176,50 @@ def insertarResumen(id, resumen):
 def buscarPosts(id):
     if(id != "new"):
         cursor = db.connection.cursor()
-        sql= "select * from posts where id = {}".format(id)
+        sql= "select * from posts where id_post = {}".format(id)
         cursor.execute(sql)
         row = cursor.fetchone()
         return jsonify(row)
     else:
         return jsonify("new")
 
-def Obtener_post(valor):
+
+@app.post('/User/CurrentUser')
+@login_required
+def RegresarUsuario():
+    peticion = request.get_json()
+    now=datetime.now()
+    id_titulo = BusquedaTitulo(peticion['post'])
+    user = {
+        'id': current_user.id,
+        'fecha': "{0}-{1}-{2}".format(now.day, now.month, now.year),
+        'hora': '{0}-{1}-{2}'.format(now.hour, now.minute, now.second),
+        'comentario' : peticion['Comentario'],
+        'id_titulo': id_titulo
+    }
+    cursor = db.connection.cursor()
+    sql = """insert into comments 
+    (id_user, fecha, hora, comentario, id_post) 
+    values ('{0}', '{1}', '{2}', '{3}', '{4}')""".format(user['id'], user['fecha'], user['hora'], user['comentario'], user['id_titulo'])
+    print(sql)
+    cursor.execute(sql)
+    db.connection.commit()
+
+    row_comments = ListaComentarios(peticion['post'])
+    if row_comments != None:
+        tiempo = convertirFechaHora(row_comments[0][2], row_comments[0][3])
+        comment = {
+            'nombre': row_comments[0][0],
+            'comentario': row_comments[0][1],
+            'fecha': tiempo['fecha'],
+            'hora': tiempo['hora']
+        }
+    else:
+        comnent= None   
+
+    return jsonify(comment)
+
+"""def Obtener_post(valor):
     cursor = db.connection.cursor()
     try:
         id = int(valor)
@@ -190,16 +228,30 @@ def Obtener_post(valor):
         sql = "select * from posts where titulo = {}".format(valor)
     cursor.execute(sql)
     row = cursor.fetchone()
-    return row
+    return row"""
 
-@app.get('/postRegistro/posts/<string:titulo>')
+@app.route('/posts/<string:titulo>')
 def Mostrar_post(titulo):
     cursor = db.connection.cursor()
-    sql = "select * from posts where titulo = '{}'".format(titulo)
+    sql = "select id_post, titulo, resumen, texto, username, fecha from posts, user where titulo = '{}' and id_author=id_user;".format(titulo)
     print(sql)
     cursor.execute(sql)
     row = cursor.fetchone()
-    return render_template('/pagina/post.html', data=row)
+    row_comments = ListaComentarios(titulo)
+    if row_comments != None:
+        comentarios = []
+        for tupla in range(len(row_comments)):
+            tiempo=convertirFechaHora(row_comments[tupla][2], row_comments[tupla][3])
+            comment = {
+                'nombre': row_comments[tupla][0],
+                'comentario': row_comments[tupla][1],
+                'fecha': tiempo['fecha'],
+                'hora': tiempo['hora']
+            }
+            comentarios.append(comment)
+    else:
+        comentarios= None    
+    return render_template('/pagina/post.html', data=row, data2=comentarios)
 
 def BusquedaTitulo(titulo):
     cursor = db.connection.cursor()
@@ -210,6 +262,61 @@ def BusquedaTitulo(titulo):
         return row[0]
     else:
         return "new"
+
+def ListaComentarios(titulo):
+    id_titulo = BusquedaTitulo(titulo)
+    cursor = db.connection.cursor()
+    sql = """select username, comentario, comments.fecha, comments.hora from comments, user, posts 
+where user.id_user = comments.id_user and posts.id_post = comments.id_post and comments.id_post={}
+ORDER BY id_comment DESC;""".format(id_titulo)
+    print(sql)
+    cursor.execute(sql)
+    row = cursor.fetchall()
+    if row != None:
+        return row
+    else:
+        return None
+
+def convertirFechaHora(fecha, hora):
+    hora = hora[0:5]
+    tab_hora =hora.split("-")
+
+    hora = "{0}:{1}".format(tab_hora[0], tab_hora[1])
+
+    tab_fecha = fecha.split("-")
+
+    if str.__contains__(tab_fecha[1], "12"):
+        tab_fecha[1] = "Dic"
+    elif str.__contains__(tab_fecha[1], "11"):
+        tab_fecha[1] = "Nov"
+    elif str.__contains__(tab_fecha[1], "10"):
+        tab_fecha[1] = "Oct"
+    elif str.__contains__(tab_fecha[1], "9"):
+        tab_fecha[1] = "Sep"
+    elif str.__contains__(tab_fecha[1], "8"):
+        tab_fecha[1] = "Ago"
+    elif str.__contains__(tab_fecha[1], "7"):
+        tab_fecha[1] = "Jul"
+    elif str.__contains__(tab_fecha[1], "6"):
+        tab_fecha[1] = "Jun"
+    elif str.__contains__(tab_fecha[1], "5"):
+        tab_fecha[1] = "May"
+    elif str.__contains__(tab_fecha[1], "4"):
+        tab_fecha[1] = "Abr"
+    elif str.__contains__(tab_fecha[1], "3"):
+        tab_fecha[1] = "Mar"
+    elif str.__contains__(tab_fecha[1], "2"):
+        tab_fecha[1] = "Feb"
+    elif str.__contains__(tab_fecha[1], "1"):
+        tab_fecha[1] = "Ene"
+ 
+    fecha= "{0} de {1}, {2}".format(tab_fecha[0], tab_fecha[1], tab_fecha[2])
+
+    tiempo = {
+        'fecha': fecha,
+        'hora': hora
+    }
+    return tiempo
 
 if __name__ == '__main__':
     #app.add_url_rule('/query_string', view_func=query_string)

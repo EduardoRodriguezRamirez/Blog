@@ -14,7 +14,7 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="page-heading">
-                            <h1>{{data[1]}}</h1>
+                            <h1 id="titulo">{{data[1]}}</h1>
                             <h2 class="subheading">{{data[2]}}</h2>
                             <span class="meta">
                                 Posted by
@@ -38,41 +38,50 @@
                 </div>
             </div>
         </article>
-        <div class="CommentBox">
-            <div class="container AddComment">
-                <div class="row">
-                    <div class="col-2 PicturePersonal">
-                        <p id="foto">Foto</p>
-                    </div>
-                    <div class="col-10 PossibleComment">
-                        <div class="row justify-content-start">
-                            <div class="col">
-                                <label for="TextBoxComment">Comentario</label>
-                                <textarea class="form-control" id="TextBoxComment" rows="3"></textarea>
-                            </div>     
+        <div class="padding">
+            <div class="container CommentBox">
+                <div class="container AddComment">
+                    <div class="row">
+                        <div class="col-2 PicturePersonal">
+                            <p id="foto">Foto</p>
                         </div>
-                        <div class="row justify-content-end ButtonComment">
-                                <button id="BotonComentario" class="btn btn-secondary">Comentar</button>
+                        <div class="col-10 PossibleComment">
+                            <div class="row justify-content-start">
+                                <div class="col">
+                                    <label for="TextBoxComment">Comentario</label>
+                                    <textarea class="form-control" id="TextBoxComment" rows="3"></textarea>
+                                </div>     
+                            </div>
+                            <div class="row justify-content-end ButtonComment">
+                                    <button id="BotonComentario" class="btn btn-secondary">Comentar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="container Comment">
-                <div class="row">
-                    <div class="col-2 PictureUser PicturePersonal"><p>FOTO</p></div>
-                    <div class="col-10 CommentInf">
-                        <div class="row CommentUserInfo">
-                            <div class="col-9 CommentUserName">Eduardo rodriguez ramirez</div>
-                            <div class="col-2 CommentUserDate">19/20/2022</div>
-                            <div class="col-1 CommentUserHour">14:30</div>
-                        </div>
-                        <div class="row CommentText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, repudiandae nostrum! Libero molestiae quibusdam quisquam sunt modi voluptatum corrupti corporis placeat repellendus exercitationem. Consectetur nobis necessitatibus error ullam, ex sapiente. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eveniet natus fuga unde aperiam excepturi tempore ab repellendus ea animi eius, repellat blanditiis assumenda quae! Enim voluptatibus sapiente dolores error voluptatum.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci corporis, ut illo iure ipsum fuga reprehenderit officia ab itaque qui nobis error dignissimos, culpa magni assumenda minus. Officia, tempora architecto.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus error similique laborum animi commodi dolores, reprehenderit repellendus earum cumque, quis quas dolore dolorem tempore, quidem non accusantium officia consectetur corporis?
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis tenetur, quasi incidunt ipsa quis amet veniam ullam nisi error sunt consectetur. Nesciunt, exercitationem accusamus. Nesciunt esse ad magnam tempore obcaecati.
-                        </div>
+                <div id="conte">
+                    <div class="container Comment">
+                        {% if data2 != None %}
+                            {% for comment in data2 %}
+                                <div>
+                                    <div class="row PersonalComentary">
+                                        <div class="col-2 PictureUser PicturePersonal">
+                                            <p>FOTO</p>
+                                        </div>
+                                        <div class="col-10 CommentInf">
+                                            <div class="row CommentUserInfo">
+                                                <div class="col-12 CommentUserName">{{comment['nombre']}} | {{comment['fecha']}} {{comment['hora']}}</div>
+                                            </div>
+                                            <div class="row CommentText">
+                                                <p>{{comment['comentario']}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+        <script src="/static/js/PostCommentsScripts.js"></script>
         {% endblock %}

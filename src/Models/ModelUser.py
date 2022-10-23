@@ -6,10 +6,10 @@ class ModelUser():
         try:
             cursor = db.connection.cursor()
             if "@" in user.username:
-                sql="""SELECT id, username, password, email FROM user
+                sql="""SELECT id_user, username, password, email FROM user
                         where email = '{}'""".format(user.username)
             else:
-                sql="""SELECT id, username, password, email FROM user
+                sql="""SELECT id_user, username, password, email FROM user
                         where username = '{}'""".format(user.username)
             cursor.execute(sql)
             row = cursor.fetchone()
@@ -27,8 +27,8 @@ class ModelUser():
     def get_by_id(self, db, id):
         try:
             cursor = db.connection.cursor()
-            sql="""SELECT id, username, email FROM user
-                    where id = {}""".format(id)
+            sql="""SELECT id_user, username, email FROM user
+                    where id_user = {}""".format(id)
             cursor.execute(sql)
             row = cursor.fetchone()
             if row != None:
