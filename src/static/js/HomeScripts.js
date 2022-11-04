@@ -3,6 +3,10 @@
 * Copyright 2013-2022 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
+
+const corredor = document.querySelector('#corredores')
+
+const config = document.querySelector("#config")
 window.addEventListener('DOMContentLoaded', () => {
     let scrollPos = 0;
     const mainNav = document.getElementById('mainNav');
@@ -35,8 +39,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 })
 
-const corredor = document.querySelector('#corredores')
-
 corredor.addEventListener('click', e =>{
     var med = prompt("Nombre del post", "Videojuegos")
     if (med != null){
@@ -48,6 +50,18 @@ corredor.addEventListener('click', e =>{
             window.location.href = mid2
         }
     }
+});
+
+config.addEventListener('click',async e =>{
+
+    const response = await fetch("/CurrentUser")
+    const data = await response.json()
+    
+    console.log(data)
+
+    var mid2 = "/"+data+"/user_config"
+
+    window.location.href = mid2
 });
 
 
