@@ -24,18 +24,19 @@ class Logica:
         else:
             return comentarios
 
-    def insertarPost(self, post):
+    def insertarPost(self, post, id_user):
         if post['id'] == 'new':
             sql = """insert into posts (titulo, texto, id_author, fecha, hora) 
-            values ('{0}', '{1}', '{2}', '{3}', '{4}')""".format(post['titulo'], post['texto'], self.current_user.id, post['fecha'], post['hora'])
+            values ('{0}', '{1}', '{2}', '{3}', '{4}')""".format(post['titulo'], post['texto'], id_user, post['fecha'], post['hora'])
         else:
             if post['titulo'] != None:
-                sql = """update posts set titulo = '{0}', texto = '{1}', id_author = '{2}', fecha = '{3}', hora = '{4}' where id_post = {5}""".format(post['titulo'], post['texto'], self.current_user.id, post['fecha'], post['hora'], post['id'])
+                sql = """update posts set titulo = '{0}', texto = '{1}', id_author = '{2}', fecha = '{3}', hora = '{4}' where id_post = {5}""".format(post['titulo'], post['texto'], id_user, post['fecha'], post['hora'], post['id'])
             else:
-                sql = """update posts set texto = '{0}', id_author = '{1}', fecha = '{2}', hora = '{3}' where id_post = {4}""".format( post['texto'], self.current_user.id, post['fecha'], post['hora'], post['id'])  
+                sql = """update posts set texto = '{0}', id_author = '{1}', fecha = '{2}', hora = '{3}' where id_post = {4}""".format( post['texto'], id_user, post['fecha'], post['hora'], post['id'])  
         self.insert_query(sql)
 
-        sql = "select * from posts where titulo = '{}'".format(post['titulo'])
+        sql = "select id_post, titulo, resumen, texto, id_author, fecha, hora from posts where titulo = '{}'".format(post['titulo'])
+        print(sql)
         row = self.execute_query(sql, True)
         return row
 
@@ -49,7 +50,7 @@ class Logica:
         return row
 
     def BusquedaTitulo(self, titulo):
-        sql = 'select * from posts where titulo = "{}"'.format(titulo)
+        sql = 'select id_post, titulo, resumen, texto, id_author, fecha, hora from posts where titulo = "{}"'.format(titulo)
         row = self.execute_query(sql, True)
         if row == None:
             return "new"

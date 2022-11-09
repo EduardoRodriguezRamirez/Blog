@@ -116,11 +116,11 @@ def contact():
 def about():
     return render_template('pagina/about.html')
 
-@app.route('/<string:nombre>/user_config')
+@app.route('/<string:nombre>/user_count')
 @login_required
 def user_config(nombre):
-    print(nombre)
-    return render_template('pagina/configuracionUser.html')
+    return render_template('User.html', data=nombre)
+
 
 #RUTAS INTERACTIVAS
 
@@ -139,7 +139,7 @@ def create_post():
     now=datetime.now()
     new_post['fecha'] = "{0}-{1}-{2}".format(now.day, now.month, now.year)
     new_post['hora'] = '{0}-{1}-{2}'.format(now.hour, now.minute, now.second)
-    row = logica.insertarPost(new_post)
+    row = logica.insertarPost(new_post, current_user.id)
     return jsonify(row)
 
 @app.post('/postRegistro/resumen')

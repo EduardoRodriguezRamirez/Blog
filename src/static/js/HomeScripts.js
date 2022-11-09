@@ -52,14 +52,14 @@ corredor.addEventListener('click', e =>{
     }
 });
 
-config.addEventListener('click',async e =>{
+config.addEventListener('click', async e =>{
 
     const response = await fetch("/CurrentUser")
     const data = await response.json()
     
     console.log(data)
 
-    var mid2 = "/"+data+"/user_config"
+    var mid2 = "/"+data+"/user_count"
 
     window.location.href = mid2
 });
