@@ -7,6 +7,11 @@
 const corredor = document.querySelector('#corredores')
 
 const config = document.querySelector("#config")
+
+const buttonS = document.querySelector("#ButtonSearchPost")
+
+const icono = document.querySelector("#IconoUsuario")
+
 window.addEventListener('DOMContentLoaded', () => {
     let scrollPos = 0;
     const mainNav = document.getElementById('mainNav');
@@ -17,9 +22,13 @@ window.addEventListener('DOMContentLoaded', () => {
             // Scrolling Up
             if (currentTop > 0 && mainNav.classList.contains('is-fixed')) {
                 mainNav.classList.add('is-visible');
+                buttonS.setAttribute("class","btn btn-outline-dark")
+                icono.setAttribute("class", "IconoRepre-dark")
             } else {
                 console.log(123);
                 mainNav.classList.remove('is-visible', 'is-fixed');
+                buttonS.setAttribute("class","btn btn-outline-light")
+                icono.setAttribute("class", "IconoRepre-light")
             }
         } else {
             // Scrolling Down

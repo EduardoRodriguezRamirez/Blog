@@ -121,6 +121,11 @@ def about():
 def user_config(nombre):
     return render_template('User.html', data=nombre)
 
+@app.route("/Busqueda")
+@login_required
+def busqueda():
+    return render_template("/pagina/BusquedaPosts.html")
+
 
 #RUTAS INTERACTIVAS
 
