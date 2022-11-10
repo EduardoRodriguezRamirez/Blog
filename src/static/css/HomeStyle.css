@@ -11373,3 +11373,7 @@ div{
   display: flex;
   
 }
+#SearchPost{
+  display: flex;
+  align-items: center;
+}
