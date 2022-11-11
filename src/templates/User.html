@@ -110,6 +110,60 @@
     </div>
   </div>
   <div id="topic" class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 80%;">
+    <div class="list-group list-group-flush border-bottom scrollarea">
+      <div id="PageConfiguracion">
+        <div class="d-flex justify-content-center">
+          <h1 class="title">Configuración</h1>
+        </div>
+          <div id="page">
+            <div class="list-group-item">
+              <h2>Cambiar Nombre</h2>
+                <div class="form-group">
+                  <label for="username">Nuevo Nombre</label>
+                  <input type="text" class="form-control" id="username" aria-describedby="nameOfUser" placeholder="Ingrese nuevo nombre">
+                  <small id="UsernameHelp" class="form-text text-muted" style="display:none">El nombre ya está en uso.</small>
+                </div>
+                <button type="button" class="btn btn-primary" id="btnName">Cambiar</button>
+            </div>
+            <div class="list-group-item">
+              <h2>Cambiar Contraseña</h2>
+                <div class="form-group">
+                  <label for="psswd">Nueva contraseña</label>
+                  <input type="password" class="form-control" id="psswd" aria-describedby="passwordOfUser" placeholder="Ingrese nueva contraseña">
+                </div>
+                <div class="form-group">
+                  <label for="Confirmpsswd">Confirmar Nueva contraseña</label>
+                  <input type="password" class="form-control" id="Confirmpsswd" aria-describedby="passwordOfUser" placeholder="Ingrese nueva contraseña">
+                  <small id="psswdConfHelp" class="form-text text-muted" style="display:none;">Las contraseñas no coinciden.</small>
+                </div>
+                <div class="form-group">
+                  <label for="Oldpsswd">Vieja contraseña</label>
+                  <input type="password" class="form-control" id="Oldpsswd" aria-describedby="passwordOfUser" placeholder="Ingrese vieja contraseña">
+                  <small id="psswdOldHelppsswdOldHelp" class="form-text text-muted" style="display:none">Rellenar todos los campos.</small>
+                </div>
+                <button class="btn btn-primary" id="btnPsw">Cambiar</button>
+            </div>
+            <div class="list-group-item">
+            <H2>Cambiar imagen</H2>
+              <div class="d-flex justify-content-center mb-4">
+                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" class="rounded-circle" alt="example placeholder" style="width: 200px;" />
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="btn btn-primary btn-rounded">
+                  <label class="form-label text-white m-1" for="customFile2">Choose file</label>
+                  <input type="file" class="form-control d-none" id="customFile2" />
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div id="PageFav">
+        <h1>Favoritos</h1>
+      </div>
+      <div id="PageCount">
+        <h1>Elimnar Cuenta</h1>
+      </div>
+    </div>
     
   </div>
 </main>

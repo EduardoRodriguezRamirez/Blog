@@ -11,11 +11,15 @@ const config = document.querySelector("#config");
 const fav = document.querySelector("#fav");
 const count_delt = document.querySelector("#delete");
 const topic = document.querySelector("#topic")
+const PageConfig = document.querySelector("#PageConfiguracion")
+const PageFav = document.querySelector("#PageFav")
+const PageCount = document.querySelector("#PageCount")
+var listadeNombres;
+const warningName = document.querySelector("#UsernameHelp")
 
 window.addEventListener('DOMContentLoaded', ()=>{
   config_page()
 })
-
 
 config.addEventListener('click', e=>{
   config.setAttribute("class","nav-link active")
@@ -55,135 +59,101 @@ count_delt.addEventListener('click', e=>{
 });
 
 function config_page(){
-
-  topic.innerHTML=
-  `
-  <div class="d-flex justify-content-center">
-  <h1 class="title">Configuración</h1>
-</div>
-<div class="list-group list-group-flush border-bottom scrollarea">
-  <div id="page">
-    <div class="list-group-item">
-      <h2>Cambiar Nombre</h2>
-      <form>
-        <div class="form-group">
-          <label for="username">Nuevo Nombre</label>
-          <input type="text" class="form-control" id="username" aria-describedby="nameOfUser" placeholder="Ingrese nuevo nombre">
-          <small id="UsernameHelp" class="form-text text-muted">El nombre ya está en uso.</small>
-        </div>
-        <button type="submit" class="btn btn-primary">Cambiar</button>
-      </form>
-    </div>
-    <div class="list-group-item">
-      <h2>Cambiar Contraseña</h2>
-      <form>
-        <div class="form-group">
-          <label for="psswd">Nueva contraseña</label>
-          <input type="password" class="form-control" id="psswd" aria-describedby="passwordOfUser" placeholder="Ingrese nueva contraseña">
-        </div>
-        <div class="form-group">
-          <label for="Confirmpsswd">Confirmar Nueva contraseña</label>
-          <input type="password" class="form-control" id="Confirmpsswd" aria-describedby="passwordOfUser" placeholder="Ingrese nueva contraseña">
-          <small id="psswdConfHelp" class="form-text text-muted">Las contraseñas no coinciden.</small>
-        </div>
-        <div class="form-group">
-          <label for="Oldpsswd">Vieja contraseña</label>
-          <input type="password" class="form-control" id="Oldpsswd" aria-describedby="passwordOfUser" placeholder="Ingrese vieja contraseña">
-          <small id="psswdOldHelp" class="form-text text-muted">La contraseña no es valida.</small>
-        </div>
-        <button type="submit" class="btn btn-primary">Cambiar</button>
-      </form>
-    </div>
-    <div class="list-group-item">
-    <H2>Cambiar imagen</H2>
-      <div class="d-flex justify-content-center mb-4">
-        <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" class="rounded-circle" alt="example placeholder" style="width: 200px;" />
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="btn btn-primary btn-rounded">
-          <label class="form-label text-white m-1" for="customFile2">Choose file</label>
-          <input type="file" class="form-control d-none" id="customFile2" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-  `
+  PageConfig.removeAttribute("style")
+  PageFav.setAttribute("style", "display:none;")
+  PageCount.setAttribute("style", "display:none;")
 }
 
 function fav_page(){
-  topic.innerHTML=
-  `
-  <H1>Favoritos</H1>
-  <div id="page" class="align-items-center">
-  </div>
-  `
+  PageFav.removeAttribute("style")
+  PageConfig.setAttribute("style", "display:none;")
+  PageCount.setAttribute("style", "display:none;")
 }
 
 function count_page(){
-  topic.innerHTML=
-  `
-  <H1>Eliminar Cuenta</H1>
-  <div id="page" class="align-items-center">
-  </div>
-  `
+  PageCount.removeAttribute("style")
+  PageFav.setAttribute("style", "display:none;")
+  PageConfig.setAttribute("style", "display:none;")
 }
-/*
-   <hr>
-    <div id="page" class="d-flex justify-content-center flex-column">
-      <div>
-        <h2>Cambiar Nombre</h2>
-        <form>
-          <div class="form-group">
-            <label for="username">Nuevo Nombre</label>
-            <input type="text" class="form-control" id="username" aria-describedby="nameOfUser" placeholder="Ingrese nuevo nombre">
-            <small id="UsernameHelp" class="form-text text-muted">El nombre ya está en uso.</small>
-          </div>
-          <button type="submit" class="btn btn-primary">Cambiar</button>
-        </form>
-      </div>
-      <div>
-        <hr>
-      </div>
-      <div>
-        <h2>Cambiar Contraseña</h2>
-        <form>
-          <div class="form-group">
-            <label for="psswd">Nueva contraseña</label>
-            <input type="password" class="form-control" id="psswd" aria-describedby="passwordOfUser" placeholder="Ingrese nueva contraseña">
-          </div>
-          <div class="form-group">
-            <label for="Confirmpsswd">Confirmar Nueva contraseña</label>
-            <input type="password" class="form-control" id="Confirmpsswd" aria-describedby="passwordOfUser" placeholder="Ingrese nueva contraseña">
-            <small id="psswdConfHelp" class="form-text text-muted">Las contraseñas no coinciden.</small>
-          </div>
-          <div class="form-group">
-            <label for="Oldpsswd">Vieja contraseña</label>
-            <input type="password" class="form-control" id="Oldpsswd" aria-describedby="passwordOfUser" placeholder="Ingrese vieja contraseña">
-            <small id="psswdOldHelp" class="form-text text-muted">La contraseña no es valida.</small>
-          </div>
-          <button type="submit" class="btn btn-primary">Cambiar</button>
-        </form>
-      </div>
-      <div>
-        <hr>
-      </div>
-      <div>
-      <H2>Cambiar imagen</H2>
-        <div class="d-flex justify-content-center mb-4">
-          <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" class="rounded-circle" alt="example placeholder" style="width: 200px;" />
-        </div>
-        <div class="d-flex justify-content-center">
-          <div class="btn btn-primary btn-rounded">
-            <label class="form-label text-white m-1" for="customFile2">Choose file</label>
-            <input type="file" class="form-control d-none" id="customFile2" />
-          </div>
-        </div>
-      </div>
-      <div>
-        <hr>
-      </div>
 
-    </div>
-*/
+const btnName = document.querySelector("#btnName");
+const inputName = document.querySelector("#username");
+
+btnName.addEventListener('click', async e=>{
+  if(warningName.hasAttribute("style","display:none;")){
+    var response = await fetch('/ChangeName/'+inputName.value, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+  });
+  const data = await response.json();
+  }
+})
+
+inputName.addEventListener('input', async e=>{
+  if (this.listadeNombres == undefined){
+    const response = await fetch("/ListOfNames");
+    const data = await response.json()
+    this.listadeNombres = data
+  }else{
+    for( var i = 0; i<this.listadeNombres.length; i++){
+      if(this.listadeNombres[i] == inputName.value){
+        warningName.removeAttribute("style")
+        return;
+      }
+    }
+    warningName.setAttribute("style","display:none")
+  }
+})
+
+const inputNewPsw = document.querySelector("#psswd")
+const inputConfNewPsw = document.querySelector("#Confirmpsswd")
+const inputOldPsw = document.querySelector("#Oldpsswd")
+const btnPsw = document.querySelector("#btnPsw")
+
+const warningNewPsw = document.querySelector("#psswdConfHelp")
+const warningBlank = document.querySelector("#psswdOldHelppsswdOldHelp")
+
+inputConfNewPsw.addEventListener('blur', e=>{
+  if(inputNewPsw.value != inputConfNewPsw.value){
+    warningNewPsw.removeAttribute("style")
+  }else{
+    warningNewPsw.setAttribute("style","display:none;")
+  }
+})
+btnPsw.addEventListener('click', async e=>{
+  if(inputNewPsw.value == "" || inputOldPsw.value == ""){
+    warningBlank.removeAttribute("style")
+  }else{
+    warningBlank.setAttribute("style", "display:none;");
+    if(warningNewPsw.hasAttribute("style", "display:none;")){
+
+      var response = await fetch('/ChangePassword', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'NewPsw':inputNewPsw.value,
+          'OldPsw':inputOldPsw.value
+        })
+    });
+    }
+    const data = await response.json();
+    console.log(data)
+    if(data == "Si cambio"){
+      inputNewPsw.value = "";
+      inputConfNewPsw.value = "";
+      inputOldPsw.value = "";
+      warningBlank.removeAttribute("style")
+      warningBlank.setAttribute("class", "form-text Success")
+      warningBlank.textContent = "Contraseña cambiada"
+    }else{
+      warningBlank.removeAttribute("style")
+      warningBlank.setAttribute("class", "form-text text-muted")
+      warningBlank.textContent = "La vieja contraseña es incorrecta"
+    }
+  }
+})

@@ -1,3 +1,4 @@
+from cgi import print_arguments
 from cmath import e
 from datetime import datetime
 from distutils.log import Log
@@ -196,6 +197,32 @@ def Mostrar_post(titulo):
 def regresarUser():
     return jsonify(current_user.username)
 
+@app.get('/ListOfNames')
+def regresarNombres():
+    sql = "select username from user;"
+    row = logica.execute_query(sql, False)
+    return jsonify(row)
+
+@app.post('/ChangeName/<string:nombre>')
+def cambiarNombre(nombre):
+    sql = "update user set username='{0}' where id_user={1};".format(nombre, current_user.id)
+    row = logica.insert_query(sql)
+    return jsonify(row)
+
+@app.post('/ChangePassword')
+def cambiarContraseña():
+    peticion = request.get_json()
+    NewPsw = peticion['NewPsw']
+    OldPsw = peticion['OldPsw']
+    if(ModelUser.ObtenerPsw(db, current_user.id, OldPsw)):
+        Psw = User.password_creator(NewPsw)
+        sql = "update user set password = '{0}' where id_user={1}".format(Psw, current_user.id)
+        logica.insert_query(sql)
+        return jsonify("Si cambio")
+    else:
+        return jsonify("No cambio")
+    
+
 #METODOS DE ERRORES
 
 
@@ -212,57 +239,3 @@ if __name__ == '__main__':
     app.config.from_object(config['development'])
     app.run()
 
-"""
-def Obtener_post(valor):
-    cursor = db.connection.cursor()
-    try:
-        id = int(valor)
-        sql = "select * from posts where id = {}".format(id)
-    except TypeError:
-        sql = "select * from posts where titulo = {}".format(valor)
-    cursor.execute(sql)
-    row = cursor.fetchone()
-    return row
-
-@app.route('/protected')
-@login_required
-def protected():
-    return "<h1>Vista protegida: Solo usuarios</h1>
-
-@app.route('/contacto/<string:nombre>/<int:edad>')
-def contacto(nombre, edad):
-    data={
-        'titulo' : 'Contacto',
-        'nombre' : nombre,
-        'edad' : edad
-    }
-    return render_template('contacto.html', data=data)
-
-@app.route('/home')
-@login_required
-def home():
-    return render_template('home.html')
-
-def query_string():
-    print(request)
-    print(request.args)
-    print(request.args.get('param1'))
-    print(request.args.get('param2'))
-    return 'ok'
-
-@app.route('/animes')
-def listar_animes():
-    data={}
-    try:
-        cursor = conexion.connection.cursor()
-        sql = "SELECT id_anime, nombre, temporadas, capitulos FROM animes_vistos ORDER BY nombre ASC"
-        cursor.execute(sql)
-        animes=cursor.fetchall()
-        #print(animes)
-        data['animes'] = animes
-        data['mensaje'] = 'Exito'
-    except Exception as ex:
-            data['mensaje'] = 'Error...'
-    #return jsonify(data['animes'][0][0])
-    return render_template('animes.html', data=data['animes'])
-"""

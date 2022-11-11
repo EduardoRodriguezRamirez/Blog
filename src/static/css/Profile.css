@@ -76,4 +76,10 @@ body {
     padding: 25px;
   }
 
-  
+.text-muted{
+    color:red !important;
+  }
+
+.Success{
+  color: rgb(47, 194, 47) !important;
+}

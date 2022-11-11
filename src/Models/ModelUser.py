@@ -1,4 +1,8 @@
+from distutils.log import Log
 from .entities.User import User
+
+from Models.BaseDatos.Logica import Logica
+
 class ModelUser():
 
     @classmethod
@@ -64,5 +68,15 @@ class ModelUser():
             db.connection.commit()
 
             
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def ObtenerPsw(self, db, id, psw):
+        logica = Logica(db)
+        try:
+            sql = "select password from user where id_user={}".format(id)
+            row = logica.execute_query(sql, True)
+            return User.check_password(row[0], psw)
         except Exception as ex:
             raise Exception(ex)
