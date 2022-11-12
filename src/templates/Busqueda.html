@@ -34,7 +34,13 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('home') }}">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('about') }}">About</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url_for('contact') }}">Contact</a></li>
-                        <li class="nav-item" id="SearchPost"><input type="text" class="form-control mr-sm-2" placeholder="Buscar post" id="textPostSearch"></li>
+                        <li class="nav-item" id="SearchPost">
+                            <div class="dropdown" id="dropBlur">
+                                <input type="text" class="form-control mr-sm-2 dropbtn" placeholder="Buscar post" id="textPostSearch">
+                                <div class="dropdown-content" id="dropSuggest">
+                                </div>
+                            </div>                              
+                        </li>
                         <li class="nav-item" id="EButtonSearchPost">
                             <button type="button" class="btn btn-outline-light" id="ButtonSearchPost">Search</button>
                         </li>
@@ -103,5 +109,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
         <!-- Core theme JS-->
         <script src="{{url_for('static', filename='js/HomeScripts.js') }}"></script>
+        <script src="{{url_for('static', filename='js/UserFotoScripts.js') }}"></script>
+        <script src="{{url_for('static', filename='js/Buscador.js') }}"></script>
     </body>
 </html>

@@ -60,7 +60,6 @@ corredor.addEventListener('click', e =>{
         }
     }
 });
-
 config.addEventListener('click', async e =>{
 
     const response = await fetch("/CurrentUser")
@@ -74,5 +73,20 @@ config.addEventListener('click', async e =>{
 });
 
 
+  const mediumBp = matchMedia('(min-width: 992px)');
+  const changeSize = mql =>{
+      mql.matches
+        ? icono.setAttribute("class", "IconoRepre-light") 
+        : buttonS.setAttribute("class", "btn btn-outline-dark");
+    
+        mql.matches
+            ? buttonS.setAttribute("class", "btn btn-outline-light") 
+            : icono.setAttribute("class", "IconoRepre-dark")
+           
+  }
+
+ 
+  mediumBp.addListener(changeSize)
+  changeSize(mediumBp)
 
 

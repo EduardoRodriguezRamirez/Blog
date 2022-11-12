@@ -83,3 +83,10 @@ body {
 .Success{
   color: rgb(47, 194, 47) !important;
 }
+
+.IconoRepre-dark{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid black;
+}

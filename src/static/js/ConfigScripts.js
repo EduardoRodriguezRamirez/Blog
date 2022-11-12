@@ -17,8 +17,12 @@ const PageCount = document.querySelector("#PageCount")
 var listadeNombres;
 const warningName = document.querySelector("#UsernameHelp")
 
-window.addEventListener('DOMContentLoaded', ()=>{
+window.addEventListener('DOMContentLoaded', async ()=>{
   config_page()
+  var name = document.getElementById("name")
+    var response2 = await fetch("/CurrentUser")
+    var data2 = await response2.json()
+    name.textContent = data2
 })
 
 config.addEventListener('click', e=>{
@@ -142,7 +146,6 @@ btnPsw.addEventListener('click', async e=>{
     });
     }
     const data = await response.json();
-    console.log(data)
     if(data == "Si cambio"){
       inputNewPsw.value = "";
       inputConfNewPsw.value = "";
@@ -157,3 +160,60 @@ btnPsw.addEventListener('click', async e=>{
     }
   }
 })
+
+const image2 = document.getElementById("customFile2")
+
+image2.addEventListener('input', e=>{
+  var img = document.getElementById("tagImage");
+  if (image2.value != ""){
+    var fReader = new FileReader();
+  fReader.readAsDataURL(image2.files[0]);
+  fReader.onloadend = async function(event){
+    
+    img.src = event.target.result;
+  
+    var response = await fetch('/ChangeImage', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'foto': img.src
+      })
+    });
+  
+    const data = await response.json();
+
+  }
+  }
+})
+
+const corredor = document.querySelector('#corredores')
+
+corredor.addEventListener('click', e =>{
+  var med = prompt("Nombre del post", "Videojuegos")
+  if (med != null){
+      if (med == ""){
+          alert("Agregue un nombre para el post")
+      }else{
+          var mid2 = "/postRegistro/crear/"+med
+          console.log(mid2)
+          window.location.href = mid2
+      }
+  }
+});
+
+config.addEventListener('click', async e =>{
+
+  const response = await fetch("/CurrentUser")
+  const data = await response.json()
+  
+  console.log(data)
+
+  var mid2 = "/"+data+"/user_count"
+
+  window.location.href = mid2
+});
+
+
+

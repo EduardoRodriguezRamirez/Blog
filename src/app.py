@@ -1,7 +1,8 @@
 from cgi import print_arguments
-from cmath import e
+from cmath import e, log
 from datetime import datetime
 from distutils.log import Log
+from doctest import REPORTING_FLAGS
 import json
 from pickle import DICT
 import re
@@ -122,10 +123,11 @@ def about():
 def user_config(nombre):
     return render_template('User.html', data=nombre)
 
-@app.route("/Busqueda")
+@app.route("/Busqueda/<string:busqueda>")
 @login_required
-def busqueda():
-    return render_template("/pagina/BusquedaPosts.html")
+def busqueda(busqueda):
+    row = logica.obtenerBusqueda(busqueda)
+    return render_template("/pagina/BusquedaPosts.html", data=row)
 
 
 #RUTAS INTERACTIVAS
@@ -221,7 +223,35 @@ def cambiarContraseña():
         return jsonify("Si cambio")
     else:
         return jsonify("No cambio")
+
+@app.post('/ChangeImage')
+def cambiarImagen():
+    peticion = request.get_json()
+
+    sql = "update user set imagen='{0}' where id_user='{1}'".format(peticion['foto'], current_user.id)
+
+    logica.insert_query(sql)
     
+    return jsonify("Done")
+
+
+@app.get('/GetImage')
+def obtenerImagen():
+    sql = "select imagen from user where id_user={}".format(current_user.id)
+    blob = logica.execute_query(sql, True)
+    return jsonify(blob)
+
+@app.get('/GetPosts')
+def obtenerPosts():
+    row = logica.obtener_nombre_posts()
+    return jsonify(row)
+
+@app.post('/GetAuthor')
+def obtenerAutores():
+    array = request.get_json()
+    row = logica.obtenerAutores(array['array'])
+    print(row)
+    return jsonify(row)
 
 #METODOS DE ERRORES
 

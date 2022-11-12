@@ -49,6 +49,11 @@ class Logica:
         row = self.execute_query(sql, False)
         return row
 
+    def obtener_nombre_posts(self):
+        sql = "select titulo, username from posts, user where resumen <> '' and id_author=id_user ORDER BY CHAR_LENGTH(titulo) ASC;" 
+        row = self.execute_query(sql, False)
+        return row
+
     def BusquedaTitulo(self, titulo):
         sql = 'select id_post, titulo, resumen, texto, id_author, fecha, hora from posts where titulo = "{}"'.format(titulo)
         row = self.execute_query(sql, True)
@@ -56,6 +61,24 @@ class Logica:
             return "new"
         else:
             return row[0]
+    
+    def obtenerAutores(self, array):
+        authors = []
+        for title in array:
+            sql = "select username from user, posts where id_author = id_user and titulo='{}'".format(title)
+            row = self.execute_query(sql, True)
+            authors.append(row)
+        return authors
+
+    def obtenerBusqueda(self, busqueda):
+        sql = "select titulo, resumen, fecha, username from posts, user where resumen <> '' and id_author=id_user ORDER BY CHAR_LENGTH(titulo) ASC;" 
+        row = self.execute_query(sql, False)
+        lista = []
+        for array in row:
+            if busqueda.lower() in array[0].lower():
+                lista.append(array)
+        return lista
+
 
     def ListaComentarios(self, titulo):
         id_titulo = self.BusquedaTitulo(titulo)

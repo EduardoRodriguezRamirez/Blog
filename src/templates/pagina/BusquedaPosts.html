@@ -4,7 +4,8 @@
     {% endblock %}
 
 {% block style %}
-    <link href="{{ url_for('static', filename='css/BusquedaPosts.css')}}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/HomeStyle.css')}}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/CambiosHomeStyle.css')}}" rel="stylesheet" />
     {% endblock %}
 
 {% block header %}
@@ -28,8 +29,8 @@
                         </a>
                         <p class="post-meta">
                             Posted by
-                            <a href="#!">{{post[2]}}</a>
-                            {{post[3]}}
+                            <a href="#!">{{post[3]}}</a>
+                            {{post[2]}}
                         </p>
                     </div>
                     <hr class="my-4" />

@@ -77,13 +77,13 @@
 }
 
 .IconoRepre-light{
-  width: auto;
+  width: 50px;
   height: 50px;
   border-radius: 50%;
   border: 1px solid white;
 }
 .IconoRepre-dark{
-  width: auto;
+  width: 50px;
   height: 50px;
   border-radius: 50%;
   border: 1px solid black;
@@ -11397,4 +11397,63 @@ div{
 }
 #textPostSearch{
   border-radius: 2%;
+}
+.dropbtn {
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 212px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+
+.borde-light{
+  border:solid rgb(200, 200, 200) 1px;
+}
+
+.dropdown-content a{
+  padding: 8px;
+}
+
+.titleP{
+  font-size: 3vh;
+}
+.authorNP{
+  font-size: 2vh;
+  justify-content: right
+}
+
+.dropdown-content hr{
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.titleNC{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+@media (min-width: 992px) {
+  #ButtonSearchPost{
+    
+  }
 }
