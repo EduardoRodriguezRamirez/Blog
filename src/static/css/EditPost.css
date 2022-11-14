@@ -1,0 +1,128 @@
+:root{
+  --fondo-targeta: rgb(230, 230, 230);
+  --fondo-textField: rgb(240, 240, 240);
+  --bord-color:
+}
+#ctdr{
+    display: block;
+    width: auto;
+    height: auto;   
+}
+h1{
+    margin: 0px;
+}
+body{
+    padding: 0px;
+    margin: 0px;
+}
+div.elemento {
+    position: relative;
+    width: 60vw;
+    height: auto;
+    border: 3px solid #73AD21;
+    word-wrap: break-word;
+    padding: 15px;
+    flex-wrap: wrap;
+    background-color: var(--fondo-targeta);
+    margin-bottom: 10px;
+  } 
+  
+div.absolute {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  div.absolute2 {
+    position: absolute;
+    top: 1vh;
+    left: 1vw;
+  }
+
+  div.absolute3 {
+    position: absolute;
+    bottom: 1vh;
+    left: 1vw;
+  }
+
+  div.btnT{
+    border: 3px solid rgba(0, 255, 0, 0.103);
+    background-color: rgba(0, 255, 0, 0.103);
+    color:rgba(0, 0, 0, 0.336)
+  }
+
+  div.btnT:hover{
+    border: 3px solid rgba(0, 255, 0, 0.27);
+    background-color: rgba(0, 255, 0, 0.27);
+    color:rgb(0, 0, 0)
+  }
+
+  .flex{
+      display: flex;
+      justify-content: center;
+  }
+
+.view,
+.edit {
+  min-height: 20vh;
+  min-width: 100%;
+  font-family: sans-serif;
+  font-size: 12pt;
+  display: block;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.view {
+  /* padding + border = 3px */
+  padding: 2px;
+  border: none;
+}
+
+.edit {
+  background-color: var(--fondo-textField);
+  border-radius: 3%;
+}
+
+.edit:focus {
+  /* remove focus border in Safari */
+  outline: none;
+  border: none;
+}
+textarea{
+    text-align: justify;
+}
+#cancelar{
+  width: 15px;
+  height: 15px;
+  opacity: 0.5;
+}
+.botonEliminar{
+  padding: 2px !important;
+  display: flex !important;
+  align-items: center;
+  width: auto;
+  height: auto;
+  
+}
+.botonTitulo, .botonParrafo{
+  padding: 0px !important;
+  width: auto;
+  height: auto;
+}
+#fontTitulo, #fontTexto{
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+#cancelar:hover, #fontTitulo:hover, #fontTexto:hover{
+  opacity: 1;
+}
+
+.titulo{
+  text-align: center;
+}
+.parrafo{
+  text-align: justify;
+}

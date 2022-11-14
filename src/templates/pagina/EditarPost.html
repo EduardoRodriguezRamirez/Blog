@@ -1,0 +1,65 @@
+{% extends './HomePage.html' %}
+    {% block style %}
+    <link href="{{ url_for('static', filename='css/HomeStyle.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/EditPost.css')}}">
+    {% endblock %}
+
+{% block header %}
+<header class="hder" style="">
+    <div>
+        <h1>Creacion de post </h1>
+    </div>
+</header>
+{% endblock %}
+
+{% block body %}
+<div class="container-lg  margen">
+    <!--TARGETAS-->
+    <div class="flex">
+        <div id="ctdr">
+            <div class="elemento" id="1"> 
+                    <div id="view" class="view" style="font-size: 12pt;"></div>
+                    <div class="absolute btn btnT botonEliminar"><img src="{{ url_for('static', filename='img/cancelar.png')}}" alt="" id="cancelar"></div>
+                    <div class="absolute2" >
+                        <div class="btn btnT botonTitulo" id="TargetaT"><img src="{{ url_for('static', filename='img/titulo.png')}}" alt="" id="fontTitulo"></div>
+                        <div class="btn btnT botonParrafo" id="TargetaP"><img src="{{ url_for('static', filename='img/fuente.png')}}" alt="" id="fontTexto"></div>
+                    </div>   
+                    <div class="absolute3 btn btnT">BtnI</div>  
+            </div>
+        </div>
+    </div>
+    <div class="btn btn-primary" id="button" >Botton</div>
+    
+    <!--FIN TARGETAS-->
+    
+</div>
+      <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Resumen</h1>
+              <button type="button" class="btn-close resumen-cnl" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+
+                <p class="text-center" id="ResumenT">HHHH</p>
+              <textarea name="TextoResumen" id="Resumen" class="form-control" cols="30" rows="5"></textarea>
+
+            </div>
+            <div class="modal-footer">
+
+              <button type="button" class="btn btn-secondary resumen-cnl" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="Publicar" data-bs-dismiss="modal">Publicar</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+<!--<script src="/static/js/PostRegisterScripts.js"></script>-->
+<!--SCRIPT TARGETAS-->
+<script src="{{ url_for('static', filename='js/EditPostScripts.js')}}"></script>
+{% endblock %}
+

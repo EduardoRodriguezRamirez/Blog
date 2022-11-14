@@ -26,23 +26,33 @@ searchInput.addEventListener('input', async e=>{
     var primera = busqueda.slice(0, half).toLowerCase();
     var segunda = busqueda.slice(half, size).toLowerCase();
 
+    //console.log((primera.trim() === "" && segunda.trim() === ""))
+
     var array1 = []
     var array2 = []
 
-    for(var i = 0 ; i<data.length ; i++){
+    if(!(primera.trim() === "" && segunda.trim() === "")){
+        for(var i = 0 ; i<data.length ; i++){
         var nombre = data[i][0].toLowerCase();
-        if( nombre.includes(primera.toLowerCase()) || 
-            nombre.includes(segunda.toLowerCase())
-        ){
+
+        if( (nombre.includes(primera.toLowerCase()) || 
+            nombre.includes(segunda.toLowerCase())))
+        {
             if (nombre.includes(busqueda)){
                 array1.push(data[i][0])
             }else{
                 array2.push(data[i][0])
             }
+        }else{
+            //console.log("Vacio")
         }
-    }
-    for(var i = 0 ; i<array2.length ; i++){
-       array1.push(array2[i])
+        }
+      
+        for(var i = 0 ; i<array2.length ; i++){
+            array1.push(array2[i])
+        }
+    }else{
+        //console.log("No entró")
     }
     Sugerencia(array1)
     /*var pivote = array1[0];

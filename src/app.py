@@ -129,6 +129,10 @@ def busqueda(busqueda):
     row = logica.obtenerBusqueda(busqueda)
     return render_template("/pagina/BusquedaPosts.html", data=row)
 
+@app.route("/EditarPost")
+def editarPost():
+    data=[]
+    return render_template("/pagina/EditarPost.html", data=data)
 
 #RUTAS INTERACTIVAS
 
