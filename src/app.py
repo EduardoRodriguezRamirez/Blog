@@ -17,7 +17,6 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 
 from Models.BaseDatos.Logica import Logica
 
-
 #Models
 from Models.ModelUser import ModelUser
 

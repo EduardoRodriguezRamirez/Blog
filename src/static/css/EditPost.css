@@ -136,15 +136,21 @@ textarea{
 }
 #cuerpoPost{
   display: flex;
-  align-items: flex-end;
+  justify-content: center;
 }
 #agregarT{
   width: 45px;
   height: 45px;
 }
 #btnTargeta{
-  width: 45px;
-  height: 45px;
+  width: auto;
+  height: auto;
   padding: 0px;
   margin-left: 20px;
+  display: flex;
+  align-items: flex-end;
+}
+#cont{
+  justify-content: end;
+  margin-bottom: 20px;
 }

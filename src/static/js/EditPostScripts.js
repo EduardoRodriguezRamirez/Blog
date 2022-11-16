@@ -2,6 +2,8 @@
 var element = document.querySelectorAll(".elemento")
 var num_id = element.length
 
+var act = false
+
 var botonEliminar = document.querySelectorAll(".elemento .botonEliminar")
 var botonTitulo = document.querySelectorAll(".elemento .absolute2 .botonTitulo")
 var botonParrafo = document.querySelectorAll(".elemento .absolute2 .botonParrafo")
@@ -10,12 +12,17 @@ var vista = document.querySelectorAll(".view")
 const btn = document.getElementById("btnTargeta")
 const ctdr = document.getElementById("ctdr")
 
+const targeta = document.getElementById("BaseFondo")
 
 //Cada vez que se haga click en el boton determinado se removera su padre DIV
 const Click = function (evento){
     //console.log("El texto que tiene es: ", this.parentElement.getAttribute("id"));
     //this.style.borderColor = "blue";
     this.parentElement.remove()
+    element = document.querySelectorAll(".elemento")
+    if(element.length == 0){
+      targeta.setAttribute("style","display:none")
+    }
 }
 
 const Titulo = function (evento){
@@ -87,6 +94,11 @@ btn.addEventListener('click', e=>{
 
   //Se resetean los listeners
   EscBotones()
+
+  element = document.querySelectorAll(".elemento")
+  if(element.length != 0 ){
+    targeta.setAttribute("style", "")
+  }
 })
 
 //Reconteo de los elementos y botones
@@ -130,4 +142,6 @@ function editEnd(fontSize, elemento_view, area) {
   elemento_view.setAttribute("style", "font-size:"+fontSize+"pt;")
 }
 
-const btnPublicar = document.getElementById("")
+function Change(){
+  
+}

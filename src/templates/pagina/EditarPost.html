@@ -28,38 +28,38 @@
           </div>
       </div>
   </div>
-  <div class="btn" id="btnTargeta" ><img src="{{ url_for('static', filename='img/mas.png') }}" alt=""  id="agregarT"></div>
-    
+  <div class="btn" id="btnTargeta" >
+    <img src="{{ url_for('static', filename='img/mas.png') }}" alt=""  id="agregarT">
+  </div>
+</div>
     <!--FIN TARGETAS-->
-    
+<div class="container-lg">
+  <div class="d-flex" id="cont">
+    <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="btnPublicar">Publicar</button>
+  </div>
 </div>
       <!-- Modal -->
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Resumen</h1>
-              <button type="button" class="btn-close resumen-cnl" data-bs-dismiss="modal" aria-label="Close"></button>
-
-            </div>
-            <div class="modal-body">
-
-                <p class="text-center" id="ResumenT">HHHH</p>
-              <textarea name="TextoResumen" id="Resumen" class="form-control" cols="30" rows="5"></textarea>
-
-            </div>
-            <div class="modal-footer">
-
-              <button type="button" class="btn btn-secondary resumen-cnl" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" id="Publicar" data-bs-dismiss="modal">Publicar</button>
-
-            </div>
-          </div>
-        </div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Resumen</h1>
+        <button type="button" class="btn-close resumen-cnl" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <p class="text-center" id="ResumenT">Titulo</p>
+        <textarea name="TextoResumen" id="Resumen" class="form-control" cols="30" rows="5">Resumen</textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary resumen-cnl" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="Publicar" data-bs-dismiss="modal">Publicar</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!--<script src="/static/js/PostRegisterScripts.js"></script>-->
 <!--SCRIPT TARGETAS-->
 <script src="{{ url_for('static', filename='js/EditPostScripts.js')}}"></script>
+<script src="{{ url_for('static', filename='js/CrearPost.js')}}"></script>
 {% endblock %}
 
