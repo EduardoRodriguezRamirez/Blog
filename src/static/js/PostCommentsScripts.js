@@ -17,10 +17,7 @@ ButtonComment.addEventListener('click', async ()=>{
             })
         });
         const data = await response.json();
-        CommentText.value = ""; 
-        console.log(data)
-
-        data[0]
+        CommentText.value = "";
 
         const CajaComentarios = document.querySelector(".Comment")
         const userItem = document.createElement("div")

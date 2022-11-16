@@ -7,7 +7,7 @@ var botonTitulo = document.querySelectorAll(".elemento .absolute2 .botonTitulo")
 var botonParrafo = document.querySelectorAll(".elemento .absolute2 .botonParrafo")
 var vista = document.querySelectorAll(".view")
 
-const btn = document.getElementById("button")
+const btn = document.getElementById("btnTargeta")
 const ctdr = document.getElementById("ctdr")
 
 
@@ -103,7 +103,7 @@ function editStart(fontSize, elemento_view) {
   var area = document.createElement('textarea');
 
   area.className = 'edit';
-  area.value = elemento_view.innerHTML;
+  area.value = elemento_view.innerText;
 
   var alturaE = elemento_view.clientHeight
   var ancho = elemento_view.clientWidth
@@ -125,7 +125,9 @@ function editStart(fontSize, elemento_view) {
 }
 
 function editEnd(fontSize, elemento_view, area) {
-  elemento_view.innerHTML = area.value;
+  elemento_view.innerText = area.value;
   area.replaceWith(elemento_view);
   elemento_view.setAttribute("style", "font-size:"+fontSize+"pt;")
 }
+
+const btnPublicar = document.getElementById("")
