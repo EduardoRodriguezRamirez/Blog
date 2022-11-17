@@ -25,20 +25,10 @@ class Logica:
             return comentarios
 
     def insertarPost(self, post, id_user):
-        if post['id'] == 'new':
-            sql = """insert into posts (titulo, texto, id_author, fecha, hora) 
-            values ('{0}', '{1}', '{2}', '{3}', '{4}')""".format(post['titulo'], post['texto'], id_user, post['fecha'], post['hora'])
-        else:
-            if post['titulo'] != None:
-                sql = """update posts set titulo = '{0}', texto = '{1}', id_author = '{2}', fecha = '{3}', hora = '{4}' where id_post = {5}""".format(post['titulo'], post['texto'], id_user, post['fecha'], post['hora'], post['id'])
-            else:
-                sql = """update posts set texto = '{0}', id_author = '{1}', fecha = '{2}', hora = '{3}' where id_post = {4}""".format( post['texto'], id_user, post['fecha'], post['hora'], post['id'])  
+        sql = """insert into posts (titulo, texto,resumen, id_author, fecha, hora)
+                values ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');""".format(post['titulo'], post['texto'], post['resumen'], id_user, post['fecha'], post['hora'])
         self.insert_query(sql)
-
-        sql = "select id_post, titulo, resumen, texto, id_author, fecha, hora from posts where titulo = '{}'".format(post['titulo'])
-        print(sql)
-        row = self.execute_query(sql, True)
-        return row
+        return True
 
     def insertarResumen(self, id, resumen):
         sql = "UPDATE posts set resumen = '{0}' where id_post = '{1}'".format(resumen, id)
@@ -55,7 +45,7 @@ class Logica:
         return row
 
     def BusquedaTitulo(self, titulo):
-        sql = 'select id_post, titulo, resumen, texto, id_author, fecha, hora from posts where titulo = "{}"'.format(titulo)
+        sql = 'select id_post, titulo, resumen, texto, id_author, fecha, hora from posts where titulo = "{0}";'.format(titulo)
         row = self.execute_query(sql, True)
         if row == None:
             return "new"

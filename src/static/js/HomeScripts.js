@@ -51,7 +51,7 @@ window.addEventListener('DOMContentLoaded', () => {
 corredor.addEventListener('click', e =>{
     var med = prompt("Nombre del post", "Videojuegos")
     if (med != null){
-        if (med == ""){
+        if (med.trim() == ""){
             alert("Agregue un nombre para el post")
         }else{
             var mid2 = "/postRegistro/crear/"+med

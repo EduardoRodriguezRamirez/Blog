@@ -102,11 +102,6 @@ def home():
     data = logica.obtener_posts()
     return render_template('pagina/home.html', data=data)
 
-@app.route('/post')
-@login_required
-def post():
-    return render_template('pagina/post.html')
-
 @app.route('/contact')
 @login_required
 def contact():
@@ -137,12 +132,14 @@ def editarPost():
 
 @app.route('/postRegistro/crear/<titulo>')
 def postRegistro(titulo):
-    id = logica.BusquedaTitulo(titulo)
-    data={
-        'id': id,
-        'titulo': titulo,
-    }
-    return render_template('pagina/postRegistro.html', data=data)
+    if logica.BusquedaTitulo(titulo) == "new":       
+            data={
+                'titulo': titulo,
+            }
+            return render_template('pagina/EditarPost.html', data=data)
+    else:
+        return redirect("/posts/{}".format(titulo))
+    
 
 @app.post('/postRegistro/posts')
 def create_post():
@@ -150,14 +147,19 @@ def create_post():
     now=datetime.now()
     new_post['fecha'] = "{0}-{1}-{2}".format(now.day, now.month, now.year)
     new_post['hora'] = '{0}-{1}-{2}'.format(now.hour, now.minute, now.second)
-    row = logica.insertarPost(new_post, current_user.id)
-    return jsonify(row)
+    Is_Passed = logica.insertarPost(new_post, current_user.id)
+    if Is_Passed:
+        return jsonify("Done")
+    else:
+        return jsonify("Not Done")
 
 @app.post('/postRegistro/resumen')
 def insert_resumen():
     peticion = request.get_json()
     resumen = peticion['resumen']
+    logica.BusquedaTitulo(peticion['titulo'])
     id = peticion['id']
+    logica.insertarPost()
     logica.insertarResumen(id, resumen)
     return jsonify(resumen)
 
@@ -255,6 +257,20 @@ def obtenerAutores():
     row = logica.obtenerAutores(array['array'])
     print(row)
     return jsonify(row)
+
+@app.post('/GuardarPost')
+def guardarPost():
+    array = request.get_json()
+
+@app.post("/PostExist")
+def existePost():
+    peticion = request.get_json()
+    if logica.BusquedaTitulo(peticion['titulo']) == "new":
+        return jsonify(True)
+    else:
+        return jsonify(False)
+
+
 
 #METODOS DE ERRORES
 

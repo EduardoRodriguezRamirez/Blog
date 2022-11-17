@@ -2,8 +2,6 @@
 var element = document.querySelectorAll(".elemento")
 var num_id = element.length
 
-var act = false
-
 var botonEliminar = document.querySelectorAll(".elemento .botonEliminar")
 var botonTitulo = document.querySelectorAll(".elemento .absolute2 .botonTitulo")
 var botonParrafo = document.querySelectorAll(".elemento .absolute2 .botonParrafo")
@@ -13,6 +11,16 @@ const btn = document.getElementById("btnTargeta")
 const ctdr = document.getElementById("ctdr")
 
 const targeta = document.getElementById("BaseFondo")
+
+//Reconteo de los elementos y botones
+function actuar(){
+  element = document.querySelectorAll(".elemento")
+  botonEliminar = document.querySelectorAll(".elemento .botonEliminar")
+  botonTitulo = document.querySelectorAll(".elemento .botonTitulo")
+  botonParrafo = document.querySelectorAll(".elemento .botonParrafo")
+  vista = document.querySelectorAll(".view")
+}
+
 
 //Cada vez que se haga click en el boton determinado se removera su padre DIV
 const Click = function (evento){
@@ -42,6 +50,9 @@ const Parrafo = function (evento){
 const Targeta = function(evento){
   elemento_view = this.parentElement
   size1 = this.style.fontSize.toString().replace("pt","")
+  if(elemento_view.getAttribute("class") != "elemento titulo"){
+    elemento_view.setAttribute("class", "elemento parrafo")
+  }
   editStart(size1, this);
   console.log("Targeta: "+elemento_view.getAttribute("id"))
 }
@@ -70,16 +81,16 @@ btn.addEventListener('click', e=>{
   num_id = num_id +1
 
   //Se resetean las variables
-  act()
+  actuar()
 
   //Se crea la targeta
   var a= document.createElement("div")
   a.innerHTML = `
     <div id="view" class="view" style="font-size: 14pt;"></div>
-      <div class="absolute btn btnT botonEliminar"><img src="../static/img/cancelar.png" alt="" id="cancelar"></div>
+      <div class="absolute btn btnT botonEliminar"><img src="../../static/img/cancelar.png" alt="" id="cancelar"></div>
         <div class="absolute2" >
-        <div class="btn btnT botonTitulo" id="TargetaT"><img src="../static/img/titulo.png" alt="" id="fontTitulo"></div>
-        <div class="btn btnT botonParrafo" id="TargetaP"><img src="../static/img/fuente.png" alt="" id="fontTexto"></div>
+        <div class="btn btnT botonTitulo" id="TargetaT"><img src="../../static/img/titulo.png" alt="" id="fontTitulo"></div>
+        <div class="btn btnT botonParrafo" id="TargetaP"><img src="../../static/img/fuente.png" alt="" id="fontTexto"></div>
       </div>   
     <div class="absolute3 btn btnT">BtnI</div> 
   `
@@ -90,7 +101,7 @@ btn.addEventListener('click', e=>{
   ctdr.append(a)
   
   //Se resetean las variables
-  act()
+  actuar()
 
   //Se resetean los listeners
   EscBotones()
@@ -101,14 +112,6 @@ btn.addEventListener('click', e=>{
   }
 })
 
-//Reconteo de los elementos y botones
-function act(){
-  element = document.querySelectorAll(".elemento")
-  botonEliminar = document.querySelectorAll(".elemento .botonEliminar")
-  botonTitulo = document.querySelectorAll(".elemento .botonTitulo")
-  botonParrafo = document.querySelectorAll(".elemento .botonParrafo")
-  vista = document.querySelectorAll(".view")
-}
 
 function editStart(fontSize, elemento_view) {
 
@@ -140,8 +143,4 @@ function editEnd(fontSize, elemento_view, area) {
   elemento_view.innerText = area.value;
   area.replaceWith(elemento_view);
   elemento_view.setAttribute("style", "font-size:"+fontSize+"pt;")
-}
-
-function Change(){
-  
 }

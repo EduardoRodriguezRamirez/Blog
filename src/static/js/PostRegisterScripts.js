@@ -56,7 +56,7 @@ AddSummary.addEventListener('click', async e =>{
     })
     const data = await response.json()  
 
-    
+    "/postRegistro/posts"
 
 });
 
