@@ -69,6 +69,23 @@ class Logica:
                 lista.append(array)
         return lista
 
+    def obtenerPostEdit(self, titulo):
+        sql = "select id_edit, titulo, html_edit, id_author from posts_edit where titulo = '{}';".format(titulo)
+        row = self.execute_query(sql, True)
+        if row != None:
+            return row
+        else: 
+            return None
+
+    def insertarPostEdit(self, titulo, html, id):
+        sql = "insert into posts_edit (titulo, html_edit, id_author) values ('{0}', '{1}', {2});".format(titulo, html, id)
+        print(sql)
+        self.insert_query(sql)
+
+    def updatePostEdit(self, html, titulo, id):
+        sql = "update posts_edit set html_edit = '{0}' where titulo = '{1}' and  id_author = {2};".format(html, titulo, id)
+        print(sql)
+        self.insert_query(sql)
 
     def ListaComentarios(self, titulo):
         id_titulo = self.BusquedaTitulo(titulo)

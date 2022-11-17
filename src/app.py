@@ -28,7 +28,6 @@ from Models.entities.User import User
 app = Flask(__name__)
 db = MySQL(app)
 login_manager_app= LoginManager(app)
-
 logica = Logica(db)
 
 #QUIEN SABE QUE SON ESTAS COSAS
@@ -132,11 +131,11 @@ def editarPost():
 
 @app.route('/postRegistro/crear/<titulo>')
 def postRegistro(titulo):
-    if logica.BusquedaTitulo(titulo) == "new":       
-            data={
-                'titulo': titulo,
-            }
-            return render_template('pagina/EditarPost.html', data=data)
+    if logica.BusquedaTitulo(titulo) == "new":     
+        data={
+            'titulo': titulo,
+        }
+        return render_template('pagina/EditarPost.html', data=data)
     else:
         return redirect("/posts/{}".format(titulo))
     
@@ -269,6 +268,26 @@ def existePost():
         return jsonify(True)
     else:
         return jsonify(False)
+
+@app.post("/SaveEdit")
+def guardarEdit():
+    peticion = request.get_json()
+    titulo = peticion['titulo']
+    html = peticion['html']
+    id_user = current_user.id
+    row = logica.obtenerPostEdit(titulo)
+    if row == None:
+        #No existe el edit por lo que se crea usando insert
+        logica.insertarPostEdit(titulo, html, id_user)
+    else:
+        #Ya existe el edit, por lo que se usa la sentencia update
+        logica.updatePostEdit(html, titulo, id_user)
+    return jsonify("Listo")
+
+@app.get("/ValidateEdit/<titulo>")
+def validarEdit(titulo):
+    row = logica.obtenerPostEdit(titulo)
+    return jsonify(row)
 
 
 

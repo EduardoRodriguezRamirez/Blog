@@ -3,15 +3,41 @@ var element
 var InnerHTMLPost
 var titulo = document.getElementById("titulo")
 const publicar = document.getElementById("Publicar")
+var ctdr2 = document.getElementById("ctdr")
+
+const btnSave = document.getElementById("save")
+
+window.addEventListener('DOMContentLoaded', async e=>{
+    const response = await fetch("/ValidateEdit/"+titulo.innerText)
+    const data = await response.json()
+
+    console.log("Valor: "+data)
+    if (data == null){
+        ctdr2.innerHTML = `<div class="elemento" id="1"> 
+        <div id="view" class="view" style="font-size: 12pt;"></div>
+        <div class="absolute btn btnT botonEliminar"><img src="../../static/img/cancelar.png" alt="" id="cancelar"></div>
+        <div class="absolute2" >
+            <div class="btn btnT botonTitulo" id="TargetaT"><img src="../../static/img/titulo.png" alt="" id="fontTitulo"></div>
+            <div class="btn btnT botonParrafo" id="TargetaP"><img src="../../static/img/fuente.png" alt="" id="fontTexto"></div>
+        </div>   
+        <div class="absolute3 btn btnT">BtnI</div>  
+</div>
+    `   
+    }else{
+        ctdr2.innerHTML = data[2]
+    }
+
+})
 
 publicar.addEventListener("click", async e=>{
+    title = titulo.innerText
     var response = await fetch('/PostExist', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            titulo: titulo.innerText,
+            titulo: title,
         })
     })
     const data = await response.json() 
@@ -29,7 +55,10 @@ publicar.addEventListener("click", async e=>{
             if(InnerHTMLPost.trim() != ""){
                 var resumen = ObtenerResumen()
                 if(resumen.trim() != ""){
-                    GuardarPost(InnerHTMLPost, resumen)
+                    GuardarPost(InnerHTMLPost, resumen, title)
+
+                    Redireccionar(title)
+
                 }else{
                     console.log("NO HAY RESUMEN QUE PUBLICAR")
                 }
@@ -56,14 +85,14 @@ function arrayHtml(texto, tipo){
     InnerHTMLPost = InnerHTMLPost + seccion
 }
 
-async function GuardarPost(HTMLPost, Resumen){
+async function GuardarPost(HTMLPost, Resumen, title){
     var response = await fetch('/postRegistro/posts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            titulo: titulo.innerText,
+            titulo: title,
             texto: HTMLPost,
             resumen: Resumen,
             nombre: '',
@@ -77,4 +106,31 @@ async function GuardarPost(HTMLPost, Resumen){
 function ObtenerResumen(){
     var resumen = document.getElementById('Resumen').value
     return resumen
+}
+
+function Redireccionar(titulo){
+    var mid2 = "/posts/"+titulo
+    window.location.href = mid2
+}
+
+btnSave.addEventListener("click", e=>{
+    save()
+})
+
+
+async function save(){
+    var title = titulo.innerText
+    ctdr2 = document.getElementById("ctdr")
+
+    var response = await fetch('/SaveEdit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            titulo: title,
+            html: ctdr2.innerHTML
+        })
+    })
+    const data = await response.json() 
 }

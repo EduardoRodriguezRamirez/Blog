@@ -78,10 +78,10 @@ function EscBotones(){
 //Al presionar click para agregar una nueva targeta
 btn.addEventListener('click', e=>{
 
-  num_id = num_id +1
-
   //Se resetean las variables
   actuar()
+
+  num_id = element.length +1
 
   //Se crea la targeta
   var a= document.createElement("div")
