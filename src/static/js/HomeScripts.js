@@ -4,7 +4,7 @@
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
 
-const corredor = document.querySelector('#corredores')
+const crearPost = document.querySelector('#CrearPost')
 
 const config = document.querySelector("#config")
 
@@ -48,8 +48,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 })
 
-corredor.addEventListener('click', e =>{
-    var med = prompt("Nombre del post", "Videojuegos")
+crearPost.addEventListener('click', e =>{
+    var med = document.getElementById("namePost").value
     if (med != null){
         if (med.trim() == ""){
             alert("Agregue un nombre para el post")

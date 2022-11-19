@@ -49,7 +49,7 @@
                               <img src="{{ url_for('static', filename='img/ico.png')}}" id="IconoUsuario" class="IconoRepre-light">
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#" id="corredores">Crear un Post</a></li>
+                              <li><a class="dropdown-item" href="#" id="corredores" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear un Post</a></li>
                               <li><a class="dropdown-item" href="" id="config">Configuración</a></li>
                               <li><a class="dropdown-item" href="#">Something else here</a></li>
                               <li><hr class="dropdown-divider"></li>
@@ -66,8 +66,29 @@
         {% block header %}
         {% endblock %}
         <!-- Main Content-->
+        <div id="contenedorBody">
         {% block body %}
         {% endblock %}
+        </div>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Nombre del nuevo post</h1>
+                  <button type="button" class="btn-close resumen-cnl" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">          
+                  <p class="text-center" id="ResumenT">Titulo</p>
+                  <input type="text" class="form-control" id="namePost" aria-describedby="nameOfUser" placeholder="Ingrese nombre del post">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary resumen-cnl" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" id="CrearPost" data-bs-dismiss="modal">Crear</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
         <!-- Footer-->
         <footer class="border-top">

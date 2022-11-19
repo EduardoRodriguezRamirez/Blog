@@ -6,16 +6,26 @@
     })
   })
 
-
+const post = document.querySelector("#post");
 const config = document.querySelector("#config");
 const fav = document.querySelector("#fav");
 const count_delt = document.querySelector("#delete");
+
+post.getElementsByClassName("").namedItem("")
 const topic = document.querySelector("#topic")
+
+const PagePost = document.querySelector("#PagePost")
 const PageConfig = document.querySelector("#PageConfiguracion")
 const PageFav = document.querySelector("#PageFav")
 const PageCount = document.querySelector("#PageCount")
 var listadeNombres;
 const warningName = document.querySelector("#UsernameHelp")
+
+var btnEditarEdit = document.querySelectorAll(".editarEdit")
+var btnEliminarEdit = document.querySelectorAll(".eliminarEdit")
+
+var btnEditarPost = document.querySelectorAll(".editarPost")
+var btnEliminarPost = document.querySelectorAll(".eliminarPost")
 
 window.addEventListener('DOMContentLoaded', async ()=>{
   config_page()
@@ -35,6 +45,9 @@ config.addEventListener('click', e=>{
   count_delt.setAttribute("class","nav-link link-dark")
   count_delt.removeAttribute("aria-current")
 
+  post.setAttribute("class","nav-link link-dark")
+  post.removeAttribute("aria-current")
+
   config_page()
 });
 fav.addEventListener('click', e=>{
@@ -46,6 +59,9 @@ fav.addEventListener('click', e=>{
 
   count_delt.setAttribute("class","nav-link link-dark")
   count_delt.removeAttribute("aria-current")
+
+  post.setAttribute("class","nav-link link-dark")
+  post.removeAttribute("aria-current")
 
   fav_page()
 });
@@ -59,24 +75,253 @@ count_delt.addEventListener('click', e=>{
   fav.setAttribute("class","nav-link link-dark")
   fav.removeAttribute("aria-current")
 
+  post.setAttribute("class","nav-link link-dark")
+  post.removeAttribute("aria-current")
+
   count_page()
 });
+
+post.addEventListener("click", e=>{
+  post.setAttribute("class","nav-link active")
+  post.setAttribute("aria-current","page")
+
+  config.setAttribute("class","nav-link link-dark")
+  config.removeAttribute("aria-current")
+
+  fav.setAttribute("class","nav-link link-dark")
+  fav.removeAttribute("aria-current")
+
+  count_delt.setAttribute("class","nav-link link-dark")
+  count_delt.removeAttribute("aria-current")
+
+  post_page()
+  actualizar()
+  listeners()
+})
+function listeners (){
+  btnEditarEdit.forEach(edit =>{
+    edit.addEventListener("click", EditarEdit)
+  })
+  btnEliminarEdit.forEach(del =>{
+    del.addEventListener("click", DeleteEdit)
+  })
+  btnEditarPost.forEach(edit =>{
+    edit.addEventListener('click', EditarPost)
+  })
+  btnEliminarPost.forEach(dela =>{
+    dela.addEventListener('click', DeletePost)
+  })
+}
+
+async function DeletePost(){
+  var titulo = this.parentElement.parentElement.parentElement.firstElementChild.firstElementChild
+  var elem_id = this.parentElement.parentElement.parentElement.getElementsByClassName("id").namedItem("idPost")
+  var id_post = elem_id.innerText
+  var a = confirm("¿Seguro que quieres eliminar " + titulo.innerText + "?")
+
+  if (a == true){
+    var response = await fetch('/DeletePost', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          'id': id_post
+      })
+  })
+  var data = await response.json()  
+
+  console.log(data)
+
+  titulo.parentElement.parentElement.remove()
+
+  }else{
+
+  }
+
+}
+
+async function EditarPost(){
+  var postTitulo = this.parentElement.parentElement.parentElement.firstElementChild.firstElementChild
+  var postResumen = this.parentElement.parentElement.parentElement.getElementsByClassName("resume").namedItem("resume")
+  var postId = this.parentElement.parentElement.parentElement.getElementsByClassName("id").namedItem("idPost")
+
+  console.log(postTitulo.innerText)
+  console.log(postResumen.innerText)
+  console.log(postId.innerText)
+
+  if (postTitulo.hasAttribute("type")){
+    if(postTitulo.value.trim() != "" && postResumen.value.trim() != ""){
+
+      this.setAttribute("style", "")
+
+      var newTitulo = postTitulo.value
+      var newResumen = postResumen.value
+
+      var field = document.createElement("div")
+      var field2 = document.createElement("div")
+
+      field.innerText = newTitulo
+      field2.innerText = newResumen
+
+      field2.setAttribute("class", "resume")
+      field2.setAttribute("name", "resume")
+  
+
+      postTitulo.replaceWith(field)
+      postResumen.replaceWith(field2)
+
+      var id_post = postId.innerText
+//sdfasdsadasdas
+      var response = await fetch('/UpdatePost', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'titulo': newTitulo,
+            'resumen': newResumen,
+            'id': id_post
+        })
+    })
+    var data = await response.json()  
+    console.log(data)
+    }else{
+      console.log("Titulo Vacio")
+    }
+  }else{
+    this.setAttribute("style", `opacity: 1;
+    transform: scale(1.3);`)
+
+    var titulo = postTitulo.innerText
+    var resumen = postResumen.innerText
+  
+    var field = document.createElement("input")
+    var field2 = document.createElement("input")
+
+    field.setAttribute("type","text")
+    field.setAttribute("value", titulo)
+    field.setAttribute("placeholder", titulo)
+    
+
+    field2.setAttribute("type","text")
+    field2.setAttribute("value", resumen)
+    field2.setAttribute("placeholder", resumen)
+    field2.setAttribute("class", "resume")
+    field2.setAttribute("name", "resume")
+
+    postTitulo.replaceWith(field)
+    postResumen.replaceWith(field2)
+    
+
+  }
+}
+
+async function DeleteEdit(){
+  var titulo = this.parentElement.parentElement.parentElement.firstElementChild.firstElementChild
+  var elem_id = this.parentElement.parentElement.parentElement.getElementsByClassName("id").namedItem("idEdit")
+  var id_edit = elem_id.innerText
+  var a = confirm("¿Seguro que quieres eliminar " + titulo.innerText + "?")
+  if (a == true){
+    var response = await fetch('/DeleteEdit', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          'id': id_edit
+      })
+  })
+  var data = await response.json()  
+  console.log(data)
+
+  titulo.parentElement.parentElement.remove()
+
+  }else{
+
+  }
+}
+
+async function EditarEdit(){
+  var editTitulo = this.parentElement.parentElement.parentElement.firstElementChild.firstElementChild
+  if (editTitulo.hasAttribute("type")){
+    if(editTitulo.value.trim() != ""){
+      var newTitulo = editTitulo.value
+      this.setAttribute("style", "")
+      var field = document.createElement("div")
+      field.innerText = newTitulo
+      editTitulo.replaceWith(field)
+
+      var elem_id = this.parentElement.parentElement.parentElement.getElementsByClassName("id").namedItem("idEdit")
+      var id_edit = elem_id.innerText
+
+      var response = await fetch('/UpdateTitleEdit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'titulo': newTitulo,
+            'id': id_edit
+        })
+    })
+    var data = await response.json()  
+
+    console.log(data)
+
+    }else{
+      console.log("Titulo Vacio")
+    }
+  }else{
+    this.setAttribute("style", `opacity: 1;
+    transform: scale(1.3);`)
+    var titulo = editTitulo.innerText
+    console.log(titulo)
+  
+    var field = document.createElement("input")
+
+    field.setAttribute("type","text")
+    field.setAttribute("value", titulo)
+    editTitulo.replaceWith(field)
+    
+
+  }
+  
+}
+
+function actualizar(){
+  btnEditarEdit = document.querySelectorAll(".editarEdit")
+  btnEliminarEdit = document.querySelectorAll(".eliminarEdit")
+
+  btnEditarPost = document.querySelectorAll(".editarPost")
+  btnEliminarPost = document.querySelectorAll(".eliminarPost")
+}
 
 function config_page(){
   PageConfig.removeAttribute("style")
   PageFav.setAttribute("style", "display:none;")
   PageCount.setAttribute("style", "display:none;")
+  PagePost.setAttribute("style", "display:none;")
 }
 
 function fav_page(){
   PageFav.removeAttribute("style")
   PageConfig.setAttribute("style", "display:none;")
   PageCount.setAttribute("style", "display:none;")
+  PagePost.setAttribute("style", "display:none;")
 }
 
 function count_page(){
   PageCount.removeAttribute("style")
   PageFav.setAttribute("style", "display:none;")
+  PageConfig.setAttribute("style", "display:none;")
+  PagePost.setAttribute("style", "display:none;")
+}
+
+function post_page(){
+  PagePost.removeAttribute("style")
+  PageFav.setAttribute("style", "display:none;")
+  PageCount.setAttribute("style", "display:none;")
   PageConfig.setAttribute("style", "display:none;")
 }
 

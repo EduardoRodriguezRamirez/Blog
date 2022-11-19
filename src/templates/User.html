@@ -70,7 +70,7 @@
   <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 20%;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
       <!--<svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>-->
-      <span class="fs-4">{{data}}</span>
+      <span class="fs-4">{{ data['nombre'] }}</span>
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
@@ -78,6 +78,12 @@
         <a href="#" class="nav-link active" aria-current="page" id="config">
           <!--<svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>-->
           Configuración
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link link-dark"  id="post">
+          <!--<svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>-->
+          Tus posts
         </a>
       </li>
       <li>
@@ -161,6 +167,43 @@
       </div>
       <div id="PageCount">
         <h1>Elimnar Cuenta</h1>
+      </div>
+      <div id="PagePost">
+        <h1>Tus posts</h1>
+        <div class="list-group-item">
+          <h2>Posts</h2>
+          <hr>
+          <div class="extension scrollarea">
+          {% for post in data['rowPosts'] %}
+          <div class="list-group-item restPadding">
+            <h6>Titulo: <div>{{post[0]}}</div></h6>
+            <p><i>Resumen: </i></p><div class="resume" name="resume" >{{post[1]}}</div>
+            <div class="contIconos">
+              <div ><img src="{{ url_for('static', filename='img/editar.png')}}" class="icono editarPost" alt=""></div>
+              <div ><img src="{{ url_for('static', filename='img/cancelar.png')}}" class="icono eliminarPost" alt=""></div>
+            </div>
+            <div style="display:none" class="id" name="idPost">{{post[2]}}</div>
+          </div>
+          {% endfor %}
+          </div>
+        </div>
+        <div class="list-group-item">
+          <h2>Ediciones</h2>
+          <hr>
+          <div class="extension scrollarea">
+          {% for post in data['rowEdits'] %}
+          <div class="list-group-item restPadding">
+            <h6>Titulo: <div>{{post[0]}}</div></h6>
+            <div class="contIconos">
+              <div ><img src="{{ url_for('static', filename='img/editar.png')}}" class="icono editarEdit" alt=""></div>
+              <div ><img src="{{ url_for('static', filename='img/cancelar.png')}}" class="icono eliminarEdit" alt=""></div>
+            </div>
+            <div style="display:none" class="id" name="idEdit">{{post[1]}}</div>
+          </div>
+          {% endfor %}
+          </div>
+
+        </div>
       </div>
     </div>
     

@@ -13,24 +13,31 @@ window.addEventListener('DOMContentLoaded', async e=>{
 
     console.log("Valor: "+data)
     if (data == null){
-        ctdr2.innerHTML = `<div class="elemento" id="1"> 
-        <div id="view" class="view" style="font-size: 12pt;"></div>
-        <div class="absolute btn btnT botonEliminar"><img src="../../static/img/cancelar.png" alt="" id="cancelar"></div>
-        <div class="absolute2" >
-            <div class="btn btnT botonTitulo" id="TargetaT"><img src="../../static/img/titulo.png" alt="" id="fontTitulo"></div>
-            <div class="btn btnT botonParrafo" id="TargetaP"><img src="../../static/img/fuente.png" alt="" id="fontTexto"></div>
-        </div>   
-        <div class="absolute3 btn btnT">BtnI</div>  
-</div>
+        ctdr2.innerHTML = `
+        <div class="elemento" id="1"> 
+            <div id="view" class="view" style="font-size: 12pt;"></div>
+            <div class="absolute btn btnT botonEliminar"><img src="../../static/img/cancelar.png" alt="" id="cancelar"></div>
+            <div class="absolute2" >
+                <div class="btn btnT botonTitulo" id="TargetaT"><img src="../../static/img/titulo.png" alt="" id="fontTitulo"></div>
+                <div class="btn btnT botonParrafo" id="TargetaP"><img src="../../static/img/fuente.png" alt="" id="fontTexto"></div>
+            </div>   
+            <div class="absolute3 btn btnT">BtnI</div>  
+        </div>
     `   
+        actuar()
+        EscBotones()
     }else{
         ctdr2.innerHTML = data[2]
+        actuar()
+        EscBotones()
     }
 
 })
 
 publicar.addEventListener("click", async e=>{
+
     title = titulo.innerText
+
     var response = await fetch('/PostExist', {
         method: 'POST',
         headers: {
@@ -43,22 +50,29 @@ publicar.addEventListener("click", async e=>{
     const data = await response.json() 
 
     if(data){
+
         element = document.querySelectorAll(".view")
         Tipo = ""
         InnerHTMLPost = ""
+
         if (element.length != 0){
+
             element.forEach(elemento =>{
+
                 texto = elemento.innerText
                 Tipo = elemento.parentElement.getAttribute("class").replace("elemento ", "")
-                arrayHtml(texto, Tipo)        
+                arrayHtml(texto, Tipo)  
+
             })
             if(InnerHTMLPost.trim() != ""){
+            
                 var resumen = ObtenerResumen()
+
                 if(resumen.trim() != ""){
-                    GuardarPost(InnerHTMLPost, resumen, title)
 
-                    Redireccionar(title)
-
+                    respuesta = GuardarPost(InnerHTMLPost, resumen, title)
+                    console.log(respuesta)
+                    
                 }else{
                     console.log("NO HAY RESUMEN QUE PUBLICAR")
                 }
@@ -101,16 +115,11 @@ async function GuardarPost(HTMLPost, Resumen, title){
         })
     })
     const data = await response.json()  
-    console.log(data)
+    return data
 }
 function ObtenerResumen(){
     var resumen = document.getElementById('Resumen').value
     return resumen
-}
-
-function Redireccionar(titulo){
-    var mid2 = "/posts/"+titulo
-    window.location.href = mid2
 }
 
 btnSave.addEventListener("click", e=>{

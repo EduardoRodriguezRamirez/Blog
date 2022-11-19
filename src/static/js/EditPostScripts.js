@@ -7,10 +7,12 @@ var botonTitulo = document.querySelectorAll(".elemento .absolute2 .botonTitulo")
 var botonParrafo = document.querySelectorAll(".elemento .absolute2 .botonParrafo")
 var vista = document.querySelectorAll(".view")
 
-const btn = document.getElementById("btnTargeta")
-const ctdr = document.getElementById("ctdr")
+var btn1 = document.getElementById("btnTargeta")
+var ctdr = document.getElementById("ctdr")
 
-const targeta = document.getElementById("BaseFondo")
+var targeta = document.getElementById("BaseFondo")
+
+
 
 //Reconteo de los elementos y botones
 function actuar(){
@@ -23,7 +25,7 @@ function actuar(){
 
 
 //Cada vez que se haga click en el boton determinado se removera su padre DIV
-const Click = function (evento){
+var Click = function (evento){
     //console.log("El texto que tiene es: ", this.parentElement.getAttribute("id"));
     //this.style.borderColor = "blue";
     this.parentElement.remove()
@@ -33,21 +35,21 @@ const Click = function (evento){
     }
 }
 
-const Titulo = function (evento){
+var Titulo = function (evento){
   elemento_view = this.parentElement.parentElement
   elemento_view.setAttribute("class", "elemento titulo")
   editStart(24, elemento_view.firstElementChild)
   console.log("Titulo: " + elemento_view.getAttribute("id"))
 }
 
-const Parrafo = function (evento){
+var Parrafo = function (evento){
   elemento_view = this.parentElement.parentElement
   elemento_view.setAttribute("class", "elemento parrafo")
   editStart(12, elemento_view.firstElementChild)
   console.log("Parrafo: " + elemento_view.getAttribute("id"))
 }
 
-const Targeta = function(evento){
+var Targeta = function(evento){
   elemento_view = this.parentElement
   size1 = this.style.fontSize.toString().replace("pt","")
   if(elemento_view.getAttribute("class") != "elemento titulo"){
@@ -76,7 +78,7 @@ function EscBotones(){
 }
 
 //Al presionar click para agregar una nueva targeta
-btn.addEventListener('click', e=>{
+btn1.addEventListener('click', e=>{
 
   //Se resetean las variables
   actuar()

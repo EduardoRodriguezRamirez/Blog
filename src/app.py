@@ -114,7 +114,14 @@ def about():
 @app.route('/<string:nombre>/user_count')
 @login_required
 def user_config(nombre):
-    return render_template('User.html', data=nombre)
+    rowEdits = logica.obtenerAutorEdits(current_user.id)
+    rowPosts = logica.obtenerAutorPosts(current_user.id)
+    data = {
+        'nombre':nombre,
+        'rowEdits':rowEdits,
+        'rowPosts':rowPosts
+    }
+    return render_template('User.html', data=data)
 
 @app.route("/Busqueda/<string:busqueda>")
 @login_required
@@ -151,6 +158,12 @@ def create_post():
         return jsonify("Done")
     else:
         return jsonify("Not Done")
+
+@app.post('/postRegistro/Edicion')
+def editar_post():
+    new_post = request.get_json()
+    logica.updatePost(new_post['texto'], new_post['titulo'], current_user.id)
+    return jsonify("Done")
 
 @app.post('/postRegistro/resumen')
 def insert_resumen():
@@ -194,10 +207,14 @@ def RegresarUsuario():
 
 @app.route('/posts/<string:titulo>')
 def Mostrar_post(titulo):
-    sql = "select id_post, titulo, resumen, texto, username, fecha from posts, user where titulo = '{}' and id_author=id_user;".format(titulo)
+    sql = "select id_post, titulo, resumen, texto, username, fecha, id_author from posts, user where titulo = '{}' and id_author=id_user;".format(titulo)
     row = logica.execute_query(sql, True)
     comentarios= logica.comments(titulo, False)
-    return render_template('/pagina/post.html', data=row, data2=comentarios)
+    #print("ID del autor: {0}, ID del usuario actual: {1}".format(row[6], current_user.id))
+    if row[6] == current_user.id:        
+        return render_template('/pagina/post.html', data=row, data2=comentarios, data3="True")
+    else:
+        return render_template('/pagina/post.html', data=row, data2=comentarios, data3="False")
 
 @app.get('/CurrentUser')
 def regresarUser():
@@ -288,6 +305,42 @@ def guardarEdit():
 def validarEdit(titulo):
     row = logica.obtenerPostEdit(titulo)
     return jsonify(row)
+
+@app.get("/htmlPage/<titulo>")
+def obtenerHtml(titulo):
+    row = logica.obtener_posthtml(titulo)
+    return jsonify(row)
+
+@app.post("/UpdateTitleEdit")
+def actualizarTEdit():
+    peticion = request.get_json()
+    newTitle = peticion['titulo']
+    id = peticion['id']
+    row = logica.updateTituloEdit(newTitle, id)
+    return jsonify(row)
+
+@app.post("/DeleteEdit")
+def eliminarEdit():
+    peticion = request.get_json()
+    id = peticion['id']
+    logica.deleteEdit(id)
+    return jsonify("Done")
+
+@app.post("/UpdatePost")
+def actualizarPost():
+    peticion = request.get_json()
+    titulo = peticion['titulo']
+    resumen = peticion['resumen']
+    id = peticion['id']
+    logica.updatePostTR(titulo, resumen, id)
+    return jsonify("Done")
+
+@app.post("/DeletePost")
+def eliminarPost():
+    peticion = request.get_json()
+    id = peticion['id']
+    logica.deletePost(id)
+    return jsonify("Done")
 
 
 

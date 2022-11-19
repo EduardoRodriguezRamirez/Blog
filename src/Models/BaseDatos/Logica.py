@@ -46,7 +46,9 @@ class Logica:
 
     def BusquedaTitulo(self, titulo):
         sql = 'select id_post, titulo, resumen, texto, id_author, fecha, hora from posts where titulo = "{0}";'.format(titulo)
+        print("SQL con Titulo: {}".format(sql))
         row = self.execute_query(sql, True)
+        print("Debe ser none: {}".format(row))
         if row == None:
             return "new"
         else:
@@ -79,7 +81,6 @@ class Logica:
 
     def insertarPostEdit(self, titulo, html, id):
         sql = "insert into posts_edit (titulo, html_edit, id_author) values ('{0}', '{1}', {2});".format(titulo, html, id)
-        print(sql)
         self.insert_query(sql)
 
     def updatePostEdit(self, html, titulo, id):
@@ -92,7 +93,7 @@ class Logica:
         sql = """select username, comentario, comments.fecha, comments.hora from comments, user, posts 
     where user.id_user = comments.id_user and posts.id_post = comments.id_post and comments.id_post={}
     ORDER BY id_comment DESC;""".format(id_titulo)
-
+        print("SQL con new: {}".format(sql))
         row = self.execute_query(sql, False)
         return row
 
@@ -136,6 +137,43 @@ class Logica:
             'hora': hora
         }
         return tiempo
+
+    def updatePost(self, html, titulo, id):
+        sql = "update posts set texto = '{0}' where titulo = '{1}' and  id_author = {2};".format(html, titulo, id)
+        print(sql)
+        self.insert_query(sql)
+
+    def obtener_posthtml(self, titulo):
+        sql = "select texto from posts where titulo = '{}';".format(titulo)
+        row = self.execute_query(sql, True)   
+        return row
+
+    def obtenerAutorEdits(self, id):
+        sql = "select titulo, id_edit from posts_edit where id_author = {};".format(id)
+        row = self.execute_query(sql, False)
+        return row
+
+    def obtenerAutorPosts(self, id):
+        sql = "select titulo, resumen, id_post from posts where id_author = {};".format(id)
+        row = self.execute_query(sql, False)
+        return row
+
+    def updateTituloEdit(self, newTitulo, id):
+        sql = "update posts_edit set titulo = '{0}' where id_edit = {1};".format(newTitulo, id)
+        self.insert_query(sql)
+
+    def deleteEdit(self, id):
+        sql = "delete from posts_edit where id_edit = {};".format(id)
+        self.insert_query(sql)
+
+    def updatePostTR(self, titulo, resumen, id):
+        sql = "update posts set titulo = '{0}', resumen = '{1}' where id_post = {2};".format(titulo, resumen, id)
+        print(sql)
+        self.insert_query(sql)
+
+    def deletePost(self, id):
+        sql = "delete from posts where id_post = {};".format(id)
+        self.insert_query(sql) 
 
     def execute_query(self, sql, one):
         cursor = self.db.connection.cursor()
