@@ -127,6 +127,8 @@
                   <label for="username">Nuevo Nombre</label>
                   <input type="text" class="form-control" id="username" aria-describedby="nameOfUser" placeholder="Ingrese nuevo nombre">
                   <small id="UsernameHelp" class="form-text text-muted" style="display:none">El nombre ya está en uso.</small>
+                  <small id="UsernameSucces" class="form-text Success" style="display:none">El nombre cambió.</small>
+
                 </div>
                 <button type="button" class="btn btn-primary" id="btnName">Cambiar</button>
             </div>
@@ -150,6 +152,8 @@
             </div>
             <div class="list-group-item">
             <H2>Cambiar imagen</H2>
+            <small id="ImageSucces" class="form-text Success" style="display:none">La imagen cambió correctamente.</small>
+                <small id="ImageFailure" class="form-text text-muted" style="display:none">La imagen no cambió hubo un problema.</small>
               <div class="d-flex justify-content-center mb-4">
                 <img src="https://mdbootstrap.com/img/Photos/Others/placeholder-avatar.jpg" id="tagImage" class="rounded-circle" alt="example placeholder" style="width: 200px;" />
               </div>
@@ -158,6 +162,7 @@
                   <label class="form-label text-white m-1" for="customFile2" >Choose file</label>
                   <input type="file" class="form-control d-none" id="customFile2" />
                 </div>
+                
               </div>
             </div>
           </div>

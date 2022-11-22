@@ -24,15 +24,22 @@
   </div>
 </div>
     <!--FIN TARGETAS-->
+    <div class="container" id="divBotonesSave">
+      <div class="row justify-content-between">
+        <div class="col-3" >
+          <button class="btn btn-outline-dark" id="save">Save</button>
+        </div>
+        <div class="col-6" >
+          <small id="EstadoEdit"style="display: none;"></small>
+        </div>
+        <div class="col-3" >
+          <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#MenuPublicar" id="addAbstract">Publicar</button>
+        </div>
+      </div>
+    </div>
 
-<button id="save">Save</button>
-<div class="container-lg">
-  <div class="d-flex" id="cont">
-    <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="btnPublicar">Publicar</button>
-  </div>
-</div>
       <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="MenuPublicar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -52,7 +59,7 @@
 </div>
 <!--<script src="/static/js/PostRegisterScripts.js"></script>-->
 <!--SCRIPT TARGETAS-->
-<script src="{{ url_for('static', filename='js/EditPostScripts.js')}}"></script>
-<script src="{{ url_for('static', filename='js/CrearPost.js')}}"></script>
+<script src="{{ url_for('static', filename='js/FuncionTargetas.js')}}"></script>
+<script src="{{ url_for('static', filename='js/CrearEdit.js')}}"></script>
 {% endblock %}
 

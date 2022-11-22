@@ -46,7 +46,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              <img src="{{ url_for('static', filename='img/ico.png')}}" id="IconoUsuario" class="IconoRepre-light">
+                              <img src="{{ url_for('static', filename='img/NonUser.png')}}" id="IconoUsuario" class="IconoRepre-light">
                             </a>
                             <ul class="dropdown-menu">
                               <li><a class="dropdown-item" href="#" id="corredores" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear un Post</a></li>
@@ -66,10 +66,18 @@
         {% block header %}
         {% endblock %}
         <!-- Main Content-->
+        <div>
+        {% block btn %}
+        {% endblock %}
+
         <div id="contenedorBody">
         {% block body %}
         {% endblock %}
         </div>
+        </div>
+
+        {% block comment %}
+        {% endblock %}
 
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">

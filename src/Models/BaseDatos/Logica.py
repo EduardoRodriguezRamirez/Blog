@@ -30,9 +30,23 @@ class Logica:
         self.insert_query(sql)
         return True
 
+    def insertarImagen(self, peticion):
+        sql = "insert into imagenes (imagen, posicion) values ('{0}', '{1}');".format(peticion['imagen'], peticion['posicion'])
+        self.insert_query(sql)
+
+    def obtenerIdImagen(self, peticion):
+        sql = "select id_image from imagenes where imagen = '{0}';".format(peticion['imagen'])
+        row = self.execute_query(sql, True)
+        return row
+
     def insertarResumen(self, id, resumen):
         sql = "UPDATE posts set resumen = '{0}' where id_post = '{1}'".format(resumen, id)
         self.insert_query(sql)
+
+    def obtenerImagenById(self, id):
+        sql = "select imagen from imagenes where id_image = {};".format(id)
+        row = self.execute_query(sql, True)
+        return row
 
     def obtener_posts(self):
         sql = "select titulo, resumen, username, fecha from posts, user where resumen <> '' and id_author=id_user ORDER BY id_post DESC;" 
@@ -174,6 +188,12 @@ class Logica:
     def deletePost(self, id):
         sql = "delete from posts where id_post = {};".format(id)
         self.insert_query(sql) 
+
+    def obtenerImagenPorNombre(self, nombre):
+        sql = "select imagen from user where username = '{}';".format(nombre)
+        print(sql)
+        row = self.execute_query(sql, True)
+        return row
 
     def execute_query(self, sql, one):
         cursor = self.db.connection.cursor()

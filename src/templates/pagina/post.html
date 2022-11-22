@@ -26,37 +26,43 @@
                     </div>
                 </div>
             </div>
-            {% if data3 == "True" %}
-                        <div id="btnEditar">
-                            <!--<button class="btn btn-outline-dark" id="btnEditarPost">Editar</button>-->
-                            <div class="form-check form-switch">
-                                <label class="form-check-label" for="customSwitches">Editar</label>
-                                <input type="checkbox" class="form-check-input" id="EditSwitch">     
-                            </div>
-                        </div>
-            {% endif %}
         </header>
         {% endblock %}
 
+        {% block btn %}  
+        {% if data3 == "True" %}
+        <div id="btnEditar">
+            <!--<button class="btn btn-outline-dark" id="btnEditarPost">Editar</button>-->
+            <div class="form-check form-switch">
+                <label class="form-check-label" for="customSwitches">Editar</label>
+                <input type="checkbox" class="form-check-input" id="EditSwitch">     
+            </div>
+        </div>
+        {% endif %}
+        {% endblock %}
+
+
         {% block body %}
-        
         <article class="mb-4" id="articulo">
-            
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7" id="contenedorHtml">
                         
                             {{ data[3] | safe}}
+                            
                     </div>
                 </div>
             </div>   
         </article>
+        {% endblock %}
+
+        {% block comment %}
         <div class="padding">
             <div class="container CommentBox">
                 <div class="container AddComment">
                     <div class="row">
                         <div class="col-2 PicturePersonal">
-                            <p id="foto">Foto</p>
+                            <img src="{{ url_for('static', filename='img/NonUser.png') }}" alt="">
                         </div>
                         <div class="col-10 PossibleComment">
                             <div class="row justify-content-start">
@@ -70,7 +76,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
                 <div id="conte">
                     <div class="container Comment">
                         {% if data2 != None %}
@@ -78,7 +83,7 @@
                                 <div>
                                     <div class="row PersonalComentary">
                                         <div class="col-2 PictureUser PicturePersonal">
-                                            <p>FOTO</p>
+                                            <img src="{{ url_for('static', filename='img/NonUser.png') }}" alt="">
                                         </div>
                                         <div class="col-10 CommentInf">
                                             <div class="row CommentUserInfo">
@@ -98,4 +103,5 @@
         </div>
         <script src="/static/js/PostCommentsScripts.js"></script>
         <script src="/static/js/BotonEditar.js"></script>
+        <script src="/static/js/InsertImagenes.js"></script>
         {% endblock %}

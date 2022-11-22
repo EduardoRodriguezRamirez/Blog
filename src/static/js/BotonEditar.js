@@ -1,44 +1,101 @@
-const btnEditar = document.querySelector("#btnEditarPost")
-const switchEditar = document.getElementById("EditSwitch")
 
-var titulo = document.getElementById("titulo")
+var Articulo = document.querySelector("#articulo")
+var ElementoTitulo = document.getElementById("titulo")
 var script 
-var entraScript = true
+var innerHTMLPost
 
-var InnerHTMLPost
+try {
+    var SwitchEditar = document.getElementById("EditSwitch")
 
-function btnSaveEdit(){
-    var btnGuardarEdicion = document.getElementById("btnGuardarEdit")
-    if( btnGuardarEdicion != null){
-        btnGuardarEdicion.addEventListener('click', e=>{
-          GuardarEdicionPost()
+    SwitchEditar.addEventListener("input", async e=>{
+        if(SwitchEditar.checked){
+            editarPost()
+    
+        }else{
+            var ScriptRemover = document.getElementById("ScriptAñadido")
+            var Edicion = document.getElementById("Edicion")
+            var ContenedorHtml = document.getElementById("contenedorHtml")
+            var titulo = ElementoTitulo.innerText
+    
+            ScriptRemover.remove()
+            Edicion.remove()
+            Articulo.setAttribute("style", "")
+    
+            const response = await fetch("/htmlPage/" + titulo)
+            const dataPost = await response.json()
+    
+            ContenedorHtml.innerHTML = dataPost[0]
+    
+            var ElementoImagenes = document.querySelectorAll("#contenedorHtml img")
+            ElementoImagenes.forEach(async Image =>{
+                id = Image.getAttribute("id")
+                const response = await fetch("/GetImage/" + id)
+                const data = await response.json()
+                Image.setAttribute("src", data[0])
+            })
+        }
+        eventoListenerBotonGuardar()
+    })
+} catch (error) {
+    console.log("No existe")
+}
+
+
+async function guardarEdicionPostBD(htmlPost){
+    var titulo = ElementoTitulo.innerText
+
+    var response = await fetch('/postRegistro/Edicion', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'texto': htmlPost,
+            'titulo': titulo
+        })
+    })
+    const dataEdicion = await response.json()  
+    return dataEdicion
+}
+
+function eventoListenerBotonGuardar(){
+    var BtnGuardarEdicion = document.getElementById("btnGuardarEdit")
+
+    if( BtnGuardarEdicion != null){
+        BtnGuardarEdicion.addEventListener('click', e=>{
+            var ElementosImagenes = document.querySelectorAll(".Imagen")
+
+            ElementosImagenes.forEach(async Imagen =>{
+                var Image = Imagen.firstElementChild
+                Image.setAttribute("src", "")
+            })        
+          guardarEdicionPost()
         })
     }
 }
 
+function guardarEdicionPost (){
+    var Elementos = document.querySelectorAll(".elemento")
+    var tipo = ""
+    var texto = ""
+    innerHTMLPost = ""
 
-function GuardarEdicionPost (){
-    
-    var element = document.querySelectorAll(".view")
-    var Tipo = ""
-    InnerHTMLPost = ""
+    if (Elementos.length != 0){
 
-    if (element.length != 0){
-
-        element.forEach(elemento =>{
-
-            texto = elemento.innerText
-            Tipo = elemento.parentElement.getAttribute("class").replace("elemento ", "")
-            arrayHtml(texto, Tipo)  
-
+        Elementos.forEach(Elemento =>{
+            var View = Elemento.firstElementChild
+            texto = View.innerText
+            tipo = Elemento.getAttribute("class").replace("elemento ", "")
+            if(tipo == "imagen"){
+                obtenerImagen(View)
+            }else{
+                obtenerHTLMPost(texto, tipo)  
+            }
         })
 
-        if(InnerHTMLPost.trim() != ""){
+        if(innerHTMLPost.trim() != ""){
+            respuesta = guardarEdicionPostBD(innerHTMLPost)  
 
-            console.log(InnerHTMLPost)
-            respuesta = GuardarPost(InnerHTMLPost)
-            console.log(respuesta)
-                   
         }else{
             console.log("NO HAY TEXTO QUE PUBLICAR")
         }
@@ -47,69 +104,26 @@ function GuardarEdicionPost (){
         }
 }
 
-function arrayHtml(texto, tipo){
+function obtenerHTLMPost(texto, tipo){
     seccion = ""
 
     if(tipo == "parrafo"){
         seccion = `<li><p>`+ texto +`</p></li>`
-    }
-    if(tipo == "titulo"){
+    }else if(tipo == "titulo"){
         seccion = `<li><h1>`+ texto +`</h1></li>`
     }
-    InnerHTMLPost = InnerHTMLPost + seccion
+    innerHTMLPost = innerHTMLPost + seccion
 }
 
-async function GuardarPost(HTMLPost){
-    var response = await fetch('/postRegistro/Edicion', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            texto: HTMLPost,
-            titulo: titulo.innerText
-        })
-    })
-    const data = await response.json()  
-    return data
-}
+function editarPost(){
+    var ElementosLi = document.querySelectorAll("article li")
+    var BaseBody = document.querySelector("#contenedorBody")
+    var BaseTargetas = document.createElement("div") 
 
-switchEditar.addEventListener("input",async e=>{
-    if(switchEditar.checked){
-        editar()
-    }else{
-        var scriptRemover = document.getElementById("ScriptAñadido")
-        scriptRemover.remove()
-        
-        var edicion = document.getElementById("Edicion")
-        edicion.remove()
-        articulo.setAttribute("style", "")
+    Articulo.setAttribute("style", "display:none")
 
-        var contenedorHtml = document.getElementById("contenedorHtml")
-        const response = await fetch("/htmlPage/"+titulo.innerText)
-        const data = await response.json()
-
-        contenedorHtml.innerHTML = data[0]
-    
-
-    }
-    btnSaveEdit()
-})
-
-function editar(){
-
-    var articulo = document.querySelector("#articulo")
-
-    articulo.setAttribute("style", "display:none")
-
-    var Base = document.querySelectorAll("article li")
-    var id = 0
-
-    var baseBody = document.querySelector("#contenedorBody")
-
-    var b = document.createElement("div") 
-    b.setAttribute("id", "Edicion")
-    b.innerHTML= `
+    BaseTargetas.setAttribute("id", "Edicion")
+    BaseTargetas.innerHTML= `
         <div class="container-lg  margen" id="cuerpoPost">
         <!--TARGETAS-->
             <div class="flex" id="BaseFondo">
@@ -124,50 +138,78 @@ function editar(){
             <button class="btn btn-outline-dark" id="btnGuardarEdit">Guardar</button>
         </div>
         `
+    BaseBody.prepend(BaseTargetas)
 
-    baseBody.prepend(b)
+    insertarTargetas(ElementosLi)
+    
+    script = document.createElement("script")
+    script.setAttribute("src", "/static/js/FuncionTargetas.js")
+    script.setAttribute("id", "ScriptAñadido")
 
-    var ctdrBtnEditar = document.querySelector("#ctdr")
-    Base.forEach(elemento =>{
-        ele = elemento.innerHTML.charAt(1).toLowerCase()
-        
-        var a= document.createElement("div")
+    BaseBody.append(script)
+}
 
+function insertarTargetas(ListaLi){
+    var CtdrBtnEditar = document.querySelector("#ctdr")
+    var id = 0
+
+    ListaLi.forEach(elemento =>{
+        var tipo = elemento.innerHTML.charAt(1).toLowerCase()
+        var TargetaPersonal= document.createElement("div")
+        var texto = elemento.innerText
         var font
         var clase
         
         id = id + 1
-        if (ele == "p"){
+        if (tipo == "p"){
             font = "14"
             clase  = "parrafo"
+            TargetaPersonal.innerHTML = `
+            <div id="view" class="view" style="font-size: ` + font + `pt;">` + texto + `</div>
+            <div class="absolute btn btnT botonEliminar"><img src="../../static/img/cancelar.png" alt="" id="cancelar"></div>
+                <div class="absolute2" >
+                <div class="btn btnT botonTitulo" id="TargetaT"><img src="../../static/img/titulo.png" alt="" id="fontTitulo"></div>
+                <div class="btn btnT botonParrafo" id="TargetaP"><img src="../../static/img/fuente.png" alt="" id="fontTexto"></div>
+                <div class="btn btnT botonImagen" id="TargetaI" style="display:none"><img src="../../static/img/imagen.png" alt="" id="fontImagen"></div> 
+            </div>   
+        `
 
-        }
-
-        if (ele == "h"){
-            font = 24
+        }else if (tipo == "h"){
+            font = "24"
             clase = "titulo"
+            TargetaPersonal.innerHTML = `
+            <div id="view" class="view" style="font-size: ` + font + `pt;">` + texto + `</div>
+            <div class="absolute btn btnT botonEliminar"><img src="../../static/img/cancelar.png" alt="" id="cancelar"></div>
+                <div class="absolute2" >
+                <div class="btn btnT botonTitulo" id="TargetaT"><img src="../../static/img/titulo.png" alt="" id="fontTitulo"></div>
+                <div class="btn btnT botonParrafo" id="TargetaP"><img src="../../static/img/fuente.png" alt="" id="fontTexto"></div>
+                <div class="btn btnT botonImagen" id="TargetaI" style="display:none"><img src="../../static/img/imagen.png" alt="" id="fontImagen"></div> 
+            </div>   
+        `
+        }else {
+            clase = "imagen"
+            var imagenTargeta = 
+            `<div class="Imagen">
+            `+ elemento.innerHTML +`
+            </div>
+            <div class="absolute btn btnT botonEliminar"><img src="../../static/img/cancelar.png" alt="" id="cancelar"></div>
+            <div class="absolute2">
+                <div class="btn btnT botonTitulo" id="TargetaT" style="display:none"><img src="../../static/img/titulo.png" alt="" id="fontTitulo"></div>
+                <div class="btn btnT botonParrafo" id="TargetaP" style="display:none"><img src="../../static/img/fuente.png" alt="" id="fontTexto"></div>
+                <div class="btn btnT botonImagen" id="TargetaI"><img src="../../static/img/imagen.png" alt="" id="fontImagen"></div> 
+            </div>   `
+            TargetaPersonal.innerHTML = imagenTargeta
         }
+        
 
-        a.innerHTML = `
-        <div id="view" class="view" style="font-size: `+font+`pt;">`+elemento.innerText+`</div>
-        <div class="absolute btn btnT botonEliminar"><img src="../../static/img/cancelar.png" alt="" id="cancelar"></div>
-            <div class="absolute2" >
-            <div class="btn btnT botonTitulo" id="TargetaT"><img src="../../static/img/titulo.png" alt="" id="fontTitulo"></div>
-            <div class="btn btnT botonParrafo" id="TargetaP"><img src="../../static/img/fuente.png" alt="" id="fontTexto"></div>
-        </div>   
-        <div class="absolute3 btn btnT">BtnI</div> 
-    `
-    a.setAttribute("class", "elemento "+clase)
-    //Se establece el id de la targeta
-    a.setAttribute("id", id)
-    //Se agrega al html
-    ctdrBtnEditar.append(a)
-
+    TargetaPersonal.setAttribute("class", "elemento " + clase)
+    TargetaPersonal.setAttribute("id", id)
+    CtdrBtnEditar.append(TargetaPersonal)
     })
-        entraScript = false
-        script = document.createElement("script")
-        script.setAttribute("src", "/static/js/EditPostScripts.js")
-        script.setAttribute("id", "ScriptAñadido")
-        baseBody.append(script)
-    
+}
+
+function obtenerImagen(View){
+    var listaImagen = "<li>"+View.innerHTML+"</li>"
+
+    innerHTMLPost = innerHTMLPost + listaImagen
 }

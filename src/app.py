@@ -129,11 +129,6 @@ def busqueda(busqueda):
     row = logica.obtenerBusqueda(busqueda)
     return render_template("/pagina/BusquedaPosts.html", data=row)
 
-@app.route("/EditarPost")
-def editarPost():
-    data=[]
-    return render_template("/pagina/EditarPost.html", data=data)
-
 #RUTAS INTERACTIVAS
 
 @app.route('/postRegistro/crear/<titulo>')
@@ -207,7 +202,7 @@ def RegresarUsuario():
 
 @app.route('/posts/<string:titulo>')
 def Mostrar_post(titulo):
-    sql = "select id_post, titulo, resumen, texto, username, fecha, id_author from posts, user where titulo = '{}' and id_author=id_user;".format(titulo)
+    sql = "select id_post, titulo, resumen, texto, username, fecha, id_author, imagen from posts, user where titulo = '{}' and id_author=id_user;".format(titulo)
     row = logica.execute_query(sql, True)
     comentarios= logica.comments(titulo, False)
     #print("ID del autor: {0}, ID del usuario actual: {1}".format(row[6], current_user.id))
@@ -229,8 +224,9 @@ def regresarNombres():
 @app.post('/ChangeName/<string:nombre>')
 def cambiarNombre(nombre):
     sql = "update user set username='{0}' where id_user={1};".format(nombre, current_user.id)
-    row = logica.insert_query(sql)
-    return jsonify(row)
+    print(sql)
+    logica.insert_query(sql)
+    return jsonify("Done")
 
 @app.post('/ChangePassword')
 def cambiarContraseña():
@@ -325,6 +321,7 @@ def eliminarEdit():
     id = peticion['id']
     logica.deleteEdit(id)
     return jsonify("Done")
+    
 
 @app.post("/UpdatePost")
 def actualizarPost():
@@ -342,6 +339,24 @@ def eliminarPost():
     logica.deletePost(id)
     return jsonify("Done")
 
+@app.post("/InsertImage")
+def agregarImagen():
+    peticion = request.get_json()
+    id = logica.obtenerIdImagen(peticion)
+    if (id == None):
+        logica.insertarImagen(peticion)
+        id = logica.obtenerIdImagen(peticion)
+    return jsonify(id)
+
+@app.get("/GetImage/<int:id>")
+def obtenerImagenPost(id):
+    imagen = logica.obtenerImagenById(id)
+    return jsonify(imagen)
+
+@app.get("/ImageUser/<string:user>")
+def obtenerIconoUser(user):
+    row = logica.obtenerImagenPorNombre(user)
+    return jsonify(row)
 
 
 #METODOS DE ERRORES

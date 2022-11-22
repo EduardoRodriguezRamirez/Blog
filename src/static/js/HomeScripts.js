@@ -64,8 +64,6 @@ config.addEventListener('click', async e =>{
 
     const response = await fetch("/CurrentUser")
     const data = await response.json()
-    
-    console.log(data)
 
     var mid2 = "/"+data+"/user_count"
 

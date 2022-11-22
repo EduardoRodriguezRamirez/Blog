@@ -10,10 +10,7 @@ const post = document.querySelector("#post");
 const config = document.querySelector("#config");
 const fav = document.querySelector("#fav");
 const count_delt = document.querySelector("#delete");
-
-post.getElementsByClassName("").namedItem("")
 const topic = document.querySelector("#topic")
-
 const PagePost = document.querySelector("#PagePost")
 const PageConfig = document.querySelector("#PageConfiguracion")
 const PageFav = document.querySelector("#PageFav")
@@ -145,10 +142,6 @@ async function EditarPost(){
   var postTitulo = this.parentElement.parentElement.parentElement.firstElementChild.firstElementChild
   var postResumen = this.parentElement.parentElement.parentElement.getElementsByClassName("resume").namedItem("resume")
   var postId = this.parentElement.parentElement.parentElement.getElementsByClassName("id").namedItem("idPost")
-
-  console.log(postTitulo.innerText)
-  console.log(postResumen.innerText)
-  console.log(postId.innerText)
 
   if (postTitulo.hasAttribute("type")){
     if(postTitulo.value.trim() != "" && postResumen.value.trim() != ""){
@@ -338,17 +331,22 @@ btnName.addEventListener('click', async e=>{
       body: JSON.stringify({})
   });
   const data = await response.json();
+  if(data == "Done"){
+    document.getElementById("UsernameSucces").removeAttribute("style")
+  }
   }
 })
 
 inputName.addEventListener('input', async e=>{
+  var nombre = inputName.value
   if (this.listadeNombres == undefined){
     const response = await fetch("/ListOfNames");
     const data = await response.json()
     this.listadeNombres = data
   }else{
     for( var i = 0; i<this.listadeNombres.length; i++){
-      if(this.listadeNombres[i] == inputName.value){
+      var nombreLista = this.listadeNombres[i][0].toLowerCase()
+      if(nombreLista == nombre.toLowerCase()){
         warningName.removeAttribute("style")
         return;
       }
@@ -389,8 +387,9 @@ btnPsw.addEventListener('click', async e=>{
           'OldPsw':inputOldPsw.value
         })
     });
-    }
+    
     const data = await response.json();
+
     if(data == "Si cambio"){
       inputNewPsw.value = "";
       inputConfNewPsw.value = "";
@@ -404,7 +403,9 @@ btnPsw.addEventListener('click', async e=>{
       warningBlank.textContent = "La vieja contraseña es incorrecta"
     }
   }
+  }
 })
+
 
 const image2 = document.getElementById("customFile2")
 
@@ -412,8 +413,9 @@ image2.addEventListener('input', e=>{
   var img = document.getElementById("tagImage");
   if (image2.value != ""){
     var fReader = new FileReader();
-  fReader.readAsDataURL(image2.files[0]);
-  fReader.onloadend = async function(event){
+    
+    fReader.readAsDataURL(image2.files[0]);
+    fReader.onloadend = async function(event){
     
     img.src = event.target.result;
   
@@ -429,6 +431,12 @@ image2.addEventListener('input', e=>{
   
     const data = await response.json();
 
+    console.log(data)
+    if(data == "Done" ){
+      document.getElementById("ImageSucces").removeAttribute("style")
+    }else{
+      document.getElementById("ImageFailure").removeAttribute("style")
+    }
   }
   }
 })

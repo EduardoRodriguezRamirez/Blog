@@ -110,12 +110,12 @@ textarea{
   height: auto;
   
 }
-.botonTitulo, .botonParrafo{
+.botonTitulo, .botonParrafo, .botonImagen{
   padding: 0px !important;
   width: auto;
   height: auto;
 }
-#fontTitulo, #fontTexto{
+#fontTitulo, #fontTexto ,#fontImagen{
   width: 20px;
   height: 20px;
   opacity: 0.5;
@@ -137,14 +137,15 @@ textarea{
 #cuerpoPost{
   display: flex;
   justify-content: center;
+  align-items: flex-end;
 }
 #agregarT{
-  width: 45px;
-  height: 45px;
+  width: 3vw;
+  height: 3vw;
 }
 #btnTargeta{
-  width: auto;
-  height: auto;
+  width: 3vw;
+  height: 3vw;
   padding: 0px;
   margin-left: 20px;
   display: flex;
@@ -153,4 +154,90 @@ textarea{
 #cont{
   justify-content: end;
   margin-bottom: 20px;
+}
+
+.drop-area{
+  border: 5px dashed rgb(197, 197, 197);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+}
+.drop-area.active{
+  background-color: #b8d4fe;
+  color:black;
+  border: 2px dashed rgb(125, 143, 172)
+}
+.drop-area h2{
+  font-size: 30px;
+  font-weight: 500;
+  color: black;
+}
+.drop-area span{
+  font-size: 25px;
+  color:black;
+}
+.drop-area button{
+  padding: 10px 25px;
+  font-size: 20px;
+  border: 0;
+  outline: none;
+  background-color: #5256ad;
+  color:white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin:20px;
+}
+.Imagen{
+  display: flex;
+  justify-content: center;
+}
+
+.Imagen img{
+  width: auto;
+  height: 40vh;
+}
+
+#contenedorHtml li img{
+  max-width: 43vw;
+  height: auto;
+}
+#contenedorHtml li h1{
+  text-align: center;
+  word-wrap: break-word;
+  width:55vw;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+#contenedorHtml li p{
+  text-align: justify;
+  word-wrap: break-word;
+  width:55vw;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+#contenedorHtml li{
+  display: flex;
+  justify-content: center;
+}
+#contenedorHtml{
+  width:60vw;
+}
+.PicturePersonal img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: black 1px solid;
+}
+#divBotonesSave{
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+.Success{
+  color: rgb(47, 194, 47) !important;
+}
+.failure{
+  color:red !important;
 }
