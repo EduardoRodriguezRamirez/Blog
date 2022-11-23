@@ -241,3 +241,12 @@ textarea{
 .failure{
   color:red !important;
 }
+#btnGuardarEdit{
+  margin-left: 10vw;
+  margin-bottom: 5vh; 
+}
+
+#warningState{
+  margin-left: 25vw;
+  margin-top: 5vh;
+}

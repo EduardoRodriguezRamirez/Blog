@@ -13,8 +13,6 @@ const count_delt = document.querySelector("#delete");
 const topic = document.querySelector("#topic")
 const PagePost = document.querySelector("#PagePost")
 const PageConfig = document.querySelector("#PageConfiguracion")
-const PageFav = document.querySelector("#PageFav")
-const PageCount = document.querySelector("#PageCount")
 var listadeNombres;
 const warningName = document.querySelector("#UsernameHelp")
 
@@ -36,46 +34,10 @@ config.addEventListener('click', e=>{
   config.setAttribute("class","nav-link active")
   config.setAttribute("aria-current","page")
 
-  fav.setAttribute("class","nav-link link-dark")
-  fav.removeAttribute("aria-current")
-
-  count_delt.setAttribute("class","nav-link link-dark")
-  count_delt.removeAttribute("aria-current")
-
   post.setAttribute("class","nav-link link-dark")
   post.removeAttribute("aria-current")
 
   config_page()
-});
-fav.addEventListener('click', e=>{
-  fav.setAttribute("class","nav-link active")
-  fav.setAttribute("aria-current","page")
-
-  config.setAttribute("class","nav-link link-dark")
-  config.removeAttribute("aria-current")
-
-  count_delt.setAttribute("class","nav-link link-dark")
-  count_delt.removeAttribute("aria-current")
-
-  post.setAttribute("class","nav-link link-dark")
-  post.removeAttribute("aria-current")
-
-  fav_page()
-});
-count_delt.addEventListener('click', e=>{
-  count_delt.setAttribute("class","nav-link active")
-  count_delt.setAttribute("aria-current","page")
-
-  config.setAttribute("class","nav-link link-dark")
-  config.removeAttribute("aria-current")
-
-  fav.setAttribute("class","nav-link link-dark")
-  fav.removeAttribute("aria-current")
-
-  post.setAttribute("class","nav-link link-dark")
-  post.removeAttribute("aria-current")
-
-  count_page()
 });
 
 post.addEventListener("click", e=>{
@@ -84,12 +46,6 @@ post.addEventListener("click", e=>{
 
   config.setAttribute("class","nav-link link-dark")
   config.removeAttribute("aria-current")
-
-  fav.setAttribute("class","nav-link link-dark")
-  fav.removeAttribute("aria-current")
-
-  count_delt.setAttribute("class","nav-link link-dark")
-  count_delt.removeAttribute("aria-current")
 
   post_page()
   actualizar()
@@ -292,29 +248,11 @@ function actualizar(){
 
 function config_page(){
   PageConfig.removeAttribute("style")
-  PageFav.setAttribute("style", "display:none;")
-  PageCount.setAttribute("style", "display:none;")
-  PagePost.setAttribute("style", "display:none;")
-}
-
-function fav_page(){
-  PageFav.removeAttribute("style")
-  PageConfig.setAttribute("style", "display:none;")
-  PageCount.setAttribute("style", "display:none;")
-  PagePost.setAttribute("style", "display:none;")
-}
-
-function count_page(){
-  PageCount.removeAttribute("style")
-  PageFav.setAttribute("style", "display:none;")
-  PageConfig.setAttribute("style", "display:none;")
   PagePost.setAttribute("style", "display:none;")
 }
 
 function post_page(){
   PagePost.removeAttribute("style")
-  PageFav.setAttribute("style", "display:none;")
-  PageCount.setAttribute("style", "display:none;")
   PageConfig.setAttribute("style", "display:none;")
 }
 

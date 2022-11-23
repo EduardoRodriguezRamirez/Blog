@@ -11464,3 +11464,9 @@ div{
   justify-content: end;
   padding-right: 8vw;
 }
+#Imagen{
+  background-image: url('../img/Fondo.jpeg')
+}
+#contacto{
+  background-image: url("../img/contacto.jpg");
+}

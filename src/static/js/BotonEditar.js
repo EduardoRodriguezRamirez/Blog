@@ -74,7 +74,7 @@ function eventoListenerBotonGuardar(){
     }
 }
 
-function guardarEdicionPost (){
+async function guardarEdicionPost (){
     var Elementos = document.querySelectorAll(".elemento")
     var tipo = ""
     var texto = ""
@@ -88,19 +88,32 @@ function guardarEdicionPost (){
             tipo = Elemento.getAttribute("class").replace("elemento ", "")
             if(tipo == "imagen"){
                 obtenerImagen(View)
-            }else{
+            }else if(texto != ""){
                 obtenerHTLMPost(texto, tipo)  
             }
         })
 
         if(innerHTMLPost.trim() != ""){
-            respuesta = guardarEdicionPostBD(innerHTMLPost)  
+            respuesta = await guardarEdicionPostBD(innerHTMLPost) 
+            if(respuesta == "Done"){
+                document.getElementById("warningState").setAttribute("class", "form-text Success")
+                document.getElementById("warningState").textContent = "La edicion se ha guardado"
+                document.getElementById("warningState").removeAttribute("style")
+            }else{
+                document.getElementById("warningState").setAttribute("class", "form-text failure")
+                document.getElementById("warningState").textContent = "Hubo un error a la hora de guardar"
+                document.getElementById("warningState").removeAttribute("style")
+            } 
 
         }else{
-            console.log("NO HAY TEXTO QUE PUBLICAR")
+            document.getElementById("warningState").setAttribute("class", "form-text failure")
+            document.getElementById("warningState").textContent = "No hay texto que guardar"
+            document.getElementById("warningState").removeAttribute("style")
         }
     } else{
-        console.log("NO HAY TARGETAS DE LAS QUE SACAR TEXTO")
+        document.getElementById("warningState").setAttribute("class", "form-text failure")
+        document.getElementById("warningState").textContent = "No hay tarjetas de las que sacar texto"
+        document.getElementById("warningState").removeAttribute("style")
         }
 }
 
@@ -134,8 +147,9 @@ function editarPost(){
                 <img src="../../static/img/mas.png" alt=""  id="agregarT">
             </div>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-start">
             <button class="btn btn-outline-dark" id="btnGuardarEdit">Guardar</button>
+            <small id="warningState" class="form-text" style="display:none"></small>
         </div>
         `
     BaseBody.prepend(BaseTargetas)

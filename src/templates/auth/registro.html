@@ -2,7 +2,7 @@
 
 {% block title %}
 
-  hola
+  GAME JAE
 
 {% endblock %}
 
@@ -14,11 +14,12 @@
 
 {% block body %}
 
+<div id="fondo">
 <!--action devuelve los datos hacia la misma ruta /register para poder validar los datos correctamente-->
 <form class="form-signin" action="/register" method="POST">
 
     <!--src Direccion de la imagen usada-->
-    <img class="mb-4" src="{{ url_for('static', filename='img/To.png')}}" alt="" width="290" height="200">
+    <img class="mb-4" src="{{ url_for('static', filename='img/Game.jpeg')}}" alt="" width="290" height="200">
 
     <!--Este bloque es para los mensajes cuando se da un error a la hora de validar la informacion-->
     {% with messages = get_flashed_messages() %}
@@ -58,17 +59,14 @@
     </div>
 
     <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Guardar sesion
-      </label>
       <div><p>Ya estoy registrado <a href="{{ url_for('sesion') }}">Iniciar sesion</a></p></div>
     </div>
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Registrarme</button>
+    <button class="w-100 btn btn-lg btn-primary" type="submit" id="colorButton">Registrarme</button>
 
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+    <p class="mt-5 mb-3 text-muted">&copy; Practica de desarrollo de sistemas</p>
     
   </form>
-
+</div>
 {% endblock %}
 

@@ -123,7 +123,7 @@ function failure(text, obj){
     obj.removeAttribute("style")
 }
 function Success(text, obj){
-    obj.textContent = "Ya esta publicado este post"
+    obj.textContent = text
     obj.setAttribute("class", "form-text Success")
     obj.removeAttribute("style")
 }

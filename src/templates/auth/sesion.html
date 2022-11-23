@@ -2,7 +2,7 @@
 
 {% block title %}
 
-  hola
+  GAME JAE
 
 {% endblock %}
 
@@ -13,10 +13,11 @@
 {% endblock %}
 
 {% block body %}
+<div id="fondo">
 
   <form class="form-signin" action="/sesion" method="POST">
 
-      <img class="mb-4" src="{{ url_for('static', filename='img/To.png')}}" alt="" width="290" height="200">
+      <img class="mb-4" src="{{ url_for('static', filename='img/Game.jpeg')}}" alt="" width="290" height="200">
 
       {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -34,7 +35,7 @@
       {% endif %}
       {% endwith %}
 
-      <h1 class="h3 mb-3 fw-normal">Logueate</h1>
+      <h1 class="h3 mb-3 fw-normal" id="colorB">Logueate</h1>
 
       <div class="form-floating">
         <input type="username" class="form-control" id="floatingInput" name="username" placeholder="Username">
@@ -46,19 +47,17 @@
       </div>
 
       <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Guardar sesion
-        </label>
         <div>
           <p>¿No tienes cuenta? <a href="{{ url_for('register') }}">Registrarse</a></p>
         </div>
       </div>
 
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Entrar</button>
+      <button class="w-100 btn btn-lg btn-primary" type="submit" id="colorButton">Entrar</button>
 
-      <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
-      
+        <p class="mt-5 mb-3 text-muted">&copy; Practica de desarrollo de sistemas</p>
     </form>
+
+  </div>
 
 {% endblock %}
 

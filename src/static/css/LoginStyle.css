@@ -5,10 +5,16 @@ body {
 
 body {
   display: flex;
+  background-image: url("../img/Fondo.jpeg");
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: #f5f5f5;
+  justify-content: center;
+}
+#colorB{
+  color:#083D06 ;
+
 }
 
 .form-signin {
@@ -32,4 +38,19 @@ width: 100%;
 
 .form-floating{
   margin:10px;
+}
+
+#fondo{
+  background-color: #f5f5f5;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  border-radius: 1%;
+  color: #083D06;
+}
+
+#colorButton{
+  color: white;
+  background-color: #083D06;
 }
