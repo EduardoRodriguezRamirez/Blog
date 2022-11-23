@@ -250,3 +250,9 @@ textarea{
   margin-left: 25vw;
   margin-top: 5vh;
 }
+
+#PictureUserComment{
+  display: flex;
+  align-items: center;
+  padding-bottom: 7vh;
+}

@@ -10,7 +10,6 @@ window.addEventListener("DOMContentLoaded", async e=>{
         const response = await fetch("/ImageUser/" + nombre[0])
         const data = await response.json()
 
-        console.log(data[0])
         if (data[0]){
             fotoUser.setAttribute("src", data[0])
         }
@@ -49,7 +48,7 @@ ButtonComment.addEventListener('click', async ()=>{
         `
             <div class="row PersonalComentary">
                 <div class="col-2 PictureUser PicturePersonal">
-                    <p>FOTO</p>
+                <img src="` + document.querySelector("#PictureUserComment img").src + `" alt="">
                 </div>
                 <div class="col-10 CommentInf">
                     <div class="row CommentUserInfo">
